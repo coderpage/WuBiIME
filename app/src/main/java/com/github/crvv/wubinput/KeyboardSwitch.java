@@ -173,7 +173,6 @@ public class KeyboardSwitch {
                     return true;
                 }
         }
-
         // Return false if the key isn't consumed to switch a keyboard.
         return false;
     }
@@ -190,7 +189,7 @@ public class KeyboardSwitch {
         currentKeyboard = numberSymbolKeyboard;
     }
 
-    private void toShiftSymbol() {
+        private void toShiftSymbol() {
         currentKeyboard = shiftSymbolKeyboard;
     }
 

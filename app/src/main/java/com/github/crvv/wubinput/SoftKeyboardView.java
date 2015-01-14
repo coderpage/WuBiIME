@@ -33,7 +33,6 @@ public class SoftKeyboardView extends KeyboardView {
 
     private SoftKeyboard currentKeyboard;
     private boolean capsLock;
-    private boolean cangjieSimplified;
 
     private static Method invalidateKeyMethod;
 
@@ -115,15 +114,15 @@ public class SoftKeyboardView extends KeyboardView {
         // 0xFF01~0xFF5E map to the full-width forms of the characters from
         // 0x21~0x7E. Make the long press as producing corresponding full-width
         // forms for these characters by adding the offset (0xff01 - 0x21).
-        if (currentKeyboard != null && currentKeyboard.isSymbols() &&
-                key.popupResId == 0 && key.codes[0] >= 0x21 && key.codes[0] <= 0x7E) {
-            getOnKeyboardActionListener().onKey(
-                    key.codes[0] + FULL_WIDTH_OFFSET, null);
+        if (currentKeyboard != null && currentKeyboard.isSymbols() && key.popupResId == 0 && key.codes[0] >= 0x21 && key.codes[0] <= 0x7E) {
+            getOnKeyboardActionListener().onKey(key.codes[0] + FULL_WIDTH_OFFSET, null);
             return true;
-        } else if (key.codes[0] == SoftKeyboard.KEYCODE_MODE_CHANGE_LETTER) {
+        }
+        else if (key.codes[0] == SoftKeyboard.KEYCODE_MODE_CHANGE_LETTER) {
             getOnKeyboardActionListener().onKey(SoftKeyboard.KEYCODE_OPTIONS, null);
             return true;
-        } else {
+        }
+        else {
             return super.onLongPress(key);
         }
     }

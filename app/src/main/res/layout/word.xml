@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
+              android:layout_height="fill_parent"
               android:layout_margin="0dp"
               android:baselineAligned="false"
               android:clickable="true"
@@ -10,14 +10,15 @@
     >
     <TextView
         android:layout_width="12sp"
-        android:layout_height="36sp"
+        android:layout_height="fill_parent"
         android:textSize="12sp"
         android:singleLine="false"
         android:id="@+id/word_num"
         />
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40sp"
+        android:includeFontPadding="false"
         android:textSize="36sp"
         android:background="#ccc"
         android:id="@+id/word"

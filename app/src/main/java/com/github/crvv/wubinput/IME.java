@@ -21,7 +21,6 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 
@@ -89,8 +88,7 @@ public class IME extends InputMethodService implements KeyboardView.OnKeyboardAc
 
     @Override
     public View onCreateInputView() {
-        inputView = (SoftKeyboardView) getLayoutInflater().inflate(
-                R.layout.input, null);
+        inputView = (SoftKeyboardView) getLayoutInflater().inflate(R.layout.input, null);
         inputView.setOnKeyboardActionListener(this);
         return inputView;
     }
@@ -106,6 +104,7 @@ public class IME extends InputMethodService implements KeyboardView.OnKeyboardAc
     @Override
     public void onStartInputView(EditorInfo attribute, boolean restarting) {
         super.onStartInputView(attribute, restarting);
+        setCandidatesViewShown(true);
 
         // Reset editor and candidates when the input-view is just being started.
         editor.start(attribute.inputType);
@@ -226,9 +225,7 @@ public class IME extends InputMethodService implements KeyboardView.OnKeyboardAc
     }
 
     public void onPickCandidate(String candidate) {
-        // Commit the picked candidate and suggest its following words.
         commitText(candidate);
-//    setCandidates(phraseDictionary.getFollowingWords(candidate.charAt(0)), false);
     }
 
     private void clearCandidates() {
@@ -238,9 +235,8 @@ public class IME extends InputMethodService implements KeyboardView.OnKeyboardAc
     private void setCandidates(ArrayList<String> words) {
         if (mCandidatesView != null) {
             mCandidatesManager.setCandidates(words);
-            setCandidatesViewShown((((ViewGroup)mCandidatesView.findViewById(R.id.candidates_container)).getChildCount() > 0) || editor.hasComposingText());
             if (inputView != null) {
-                inputView.setEscape(mCandidatesView.isShown());
+                inputView.setEscape(editor.hasComposingText());
             }
         }
     }
@@ -276,7 +272,7 @@ public class IME extends InputMethodService implements KeyboardView.OnKeyboardAc
             if ((mCandidatesView != null) && mCandidatesView.isShown()) {
                 // The space key could either pick the highlighted candidate or escape
                 // if there's no highlighted candidate and no composing-text.
-                if (!mCandidatesManager.pickHighlighted()
+                if (!mCandidatesManager.pickFirstCandidate()
                         && !editor.hasComposingText()) {
                     escape();
                 }
@@ -305,14 +301,14 @@ public class IME extends InputMethodService implements KeyboardView.OnKeyboardAc
         if (editor.compose(getCurrentInputConnection(), keyCode)) {
             // Set the candidates for the updated composing-text and provide default
             // highlight for the word candidates.
-            setCandidates(Dictionary.getInstance(this).getDict().get(editor.composingText().toString()));
+            setCandidates(Dictionary.getInstance(this).getCandidates(editor.composingText().toString()));
             return true;
         }
         return false;
     }
 
     /**
-     * Handles input of SoftKeybaord key code that has not been consumed by
+     * Handles input of SoftKeyboard key code that has not been consumed by
      * other handling-methods.
      */
     private void handleKey(int keyCode) {
@@ -331,7 +327,11 @@ public class IME extends InputMethodService implements KeyboardView.OnKeyboardAc
     }
     public void onClick(View view){
         mCandidatesManager.onClick(view);
-
+    }
+    @Override
+    public void onDestroy(){
+        mCandidatesManager.onDestroy();
+        super.onDestroy();
     }
 
 }

@@ -138,13 +138,10 @@ public class Editor {
         if (keyCode < 97 || keyCode > 122) {
             return false;
         }
-
         if (composingText.length() >= maxLength) {
+            CandidatesManager.getInstance().pickFirstCandidate();
             clearComposingText(ic);
-            // Handle the key-code with no-op.
-            return true;
         }
-
         composingText.append(c);
         return true;
     }

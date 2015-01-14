@@ -39,39 +39,15 @@ public class Dictionary {
         if(mInstance == null)mInstance = new Dictionary(context);
         return mInstance;
     }
-    public Map<String, ArrayList<String>> getDict(){
+    public ArrayList<String> getCandidates(String input){
         while(!isAvailable);
-        return mDict;
+        return mDict.get(input);
     }
     private Dictionary(Context context){
         main = context;
         new ReadDictionary().execute();
     }
-//    @SuppressWarnings("unchecked")
-//    private Map<String, ArrayList<String>> readDictFromObjectFile(){
-//        File dictObjectFile = new File(main.getFilesDir(), "dict");
-//        Map<String, ArrayList<String>> dict;
-//        ObjectInputStream objectInputStream = null;
-//        try {
-//            long start = System.currentTimeMillis();
-////            InputStream objectFileInputStream = new FileInputStream(dictObjectFile);
-//            InputStream objectFileInputStream = main.getResources().openRawResource(R.raw.dict);
-//            BufferedInputStream bufferedObjectFileInputStream = new BufferedInputStream(objectFileInputStream, BUFFER_SIZE);
-//            objectInputStream = new ObjectInputStream(bufferedObjectFileInputStream);
-//
-//            dict = (Map<String, ArrayList<String>>) objectInputStream.readObject();
-//            Log.d(LOG_TAG, "read from object file success, " + String.valueOf(System.currentTimeMillis() - start));
-//        }
-//        catch (Exception e){
-//            Log.d(LOG_TAG, "read from object file failed");
-//            dict = null;
-//        }
-//        finally{
-//            try{if(objectInputStream != null)objectInputStream.close();}
-//            catch(Exception e){}
-//        }
-//        return dict;
-//    }
+
     private Map<String, ArrayList<String>> readDictFromResource(){
         Map<String, ArrayList<String>> dict = new HashMap<>(262144);
         BufferedReader bufferedResourceReader = null;
@@ -105,24 +81,6 @@ public class Dictionary {
         }
         return dict;
     }
-//    private void saveObjectFile(Map<String, ArrayList<String>> dict){
-//        ObjectOutputStream dictObjectOutputStream = null;
-//        try {
-//            File dictObjectFile = new File(main.getFilesDir(), "dict");
-//            FileOutputStream dictOutputStream = new FileOutputStream(dictObjectFile);
-//            dictObjectOutputStream = new ObjectOutputStream(dictOutputStream);
-//
-//            dictObjectOutputStream.writeObject(dict);
-//            Log.d(LOG_TAG, "write to object file success");
-//        }
-//        catch(Exception e){
-//            Log.d(LOG_TAG, "write to object file failed");
-//        }
-//        finally {
-//            try{if(dictObjectOutputStream != null)dictObjectOutputStream.close();}
-//            catch(Exception e){}
-//        }
-//    }
 
     private class ReadDictionary extends AsyncTask<Void, Void, Void>{
         @Override

@@ -16,7 +16,7 @@ package com.github.crvv.wubinput;
 
 import android.inputmethodservice.InputMethodService;
 import android.view.View;
-import android.widget.GridLayout;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -31,19 +31,21 @@ public class CandidatesManager {
 
     private InputMethodService main;
 
-    private ArrayList<String> words;
     private CandidateViewListener mListener;
     private View mCandidatesView;
-    private GridLayout mGridLayout;
+    private ViewGroup mContainer;
 
     private CandidatesManager(InputMethodService ims) {
         main = ims;
         mCandidatesView = main.getLayoutInflater().inflate(R.layout.candidates, null);
-        mGridLayout = (GridLayout)mCandidatesView.findViewById(R.id.candidates_container);
+        mContainer = (ViewGroup)mCandidatesView.findViewById(R.id.candidates_container);
 //        mCandidatesView.findViewById(R.id.horizontalScrollView).setLayoutParams(new ViewGroup.LayoutParams(main.getMaxWidth(), ViewGroup.LayoutParams.WRAP_CONTENT));
     }
     public static CandidatesManager getInstance(InputMethodService ims){
         if(mInstance == null)mInstance = new CandidatesManager(ims);
+        return mInstance;
+    }
+    public static CandidatesManager getInstance(){
         return mInstance;
     }
     public View getCandidatesView(){
@@ -53,25 +55,23 @@ public class CandidatesManager {
         this.mListener = listener;
     }
 
-    //TODO
     public void setCandidates(ArrayList<String> words) {
-        mGridLayout.removeAllViews();
+        mContainer.removeAllViews();
         if(words == null)return;
 
-        this.words = words;
         int index = 1;
         for(String word : words){
-            LinearLayout candidate = (LinearLayout) main.getLayoutInflater().inflate(R.layout.word, mGridLayout, false);
+            LinearLayout candidate = (LinearLayout) main.getLayoutInflater().inflate(R.layout.word, mContainer, false);
             ((TextView) candidate.findViewById(R.id.word_num)).setText(String.valueOf(index));
             ((TextView) candidate.findViewById(R.id.word)).setText(word);
-            mGridLayout.addView(candidate);
+            mContainer.addView(candidate);
             ++index;
         }
     }
 
-    public boolean pickHighlighted() {
-        if(mGridLayout.getChildCount() == 0)return false;
-        TextView wordView = (TextView)mGridLayout.getChildAt(0).findViewById(R.id.word);
+    public boolean pickFirstCandidate() {
+        if(mContainer.getChildCount() == 0)return false;
+        TextView wordView = (TextView)mContainer.getChildAt(0).findViewById(R.id.word);
         mListener.onPickCandidate(wordView.getText().toString());
         return true;
     }
@@ -81,5 +81,8 @@ public class CandidatesManager {
     }
     public static interface CandidateViewListener {
         void onPickCandidate(String candidate);
+    }
+    public void onDestroy(){
+        mInstance = null;
     }
 }
