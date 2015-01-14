@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 /*
- * Copyright 2010 Google Inc.
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -137,7 +135,7 @@
         android:rowEdgeFlags="bottom">
         <Key
             android:codes="-200"
-            android:keyLabel="@string/label_chinese"
+            android:keyLabel="@string/label_english"
             android:keyWidth="14%p"/>
         <Key
             android:codes="-2"
@@ -146,10 +144,11 @@
             android:keyLabel="123"
             android:keyWidth="14%p"/>
         <Key
-            android:codes="46"
-            android:keyLabel="."
+            android:codes="12290"
+            android:iconPreview="@drawable/period_popup_icon"
+            android:keyIcon="@drawable/period_icon"
             android:keyWidth="12%p"
-            android:popupKeyboard="@xml/popup_punctuation_en"/>
+            android:popupKeyboard="@xml/popup_punctuation_ch"/>
         <Key
             android:codes="32"
             android:iconPreview="@drawable/space_popup_icon"

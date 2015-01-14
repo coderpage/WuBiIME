@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.googlecode.tcime;
+package com.github.crvv.wubinput;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -50,16 +50,12 @@ public class SoftKeyboard extends Keyboard {
     return id == R.xml.qwerty;
   }
 
-  public boolean isZhuyin() {
-    return id == R.xml.zhuyin;
-  }
-
   public boolean isCangjie() {
-    return id == R.xml.cangjie;
+    return id == R.xml.qwerty_wubi;
   }
 
   public boolean isChinese() {
-    return isZhuyin() || isCangjie();
+    return isCangjie();
   }
 
   public boolean isNumberSymbol() {

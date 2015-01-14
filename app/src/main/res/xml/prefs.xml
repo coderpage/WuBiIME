@@ -20,19 +20,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/ime_name">
 
-    <CheckBoxPreference
-        android:key="@string/prefs_vibrate_key"
-        android:title="@string/prefs_vibrate_title"
-        android:persistent="true"/>
+
 
     <CheckBoxPreference
         android:key="@string/prefs_sound_key"
         android:title="@string/prefs_sound_title"
         android:persistent="true"/>
 
-    <Preference
-        android:key="@string/prefs_licensing"
-        android:title="@string/prefs_licensing"
-        android:persistent="false"/>
 
 </PreferenceScreen>

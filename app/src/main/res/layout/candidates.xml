@@ -17,38 +17,16 @@
  */
 -->
 
-<com.googlecode.tcime.CandidatesContainer
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/candidates_container"
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
+
+<HorizontalScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#eee"
+    android:id="@+id/horizontalScrollView">
+    <GridLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/candidates_container_bg"
-        >
-
-    <ImageButton
-        android:id="@+id/arrow_left"
-        android:background="@drawable/arrow_bg"
-        android:src="@drawable/arrow_left"
-        android:layout_width="33dp"
-        android:layout_height="fill_parent"
-        android:clickable="true"
-        />
-
-    <com.googlecode.tcime.CandidateView
-        android:id="@+id/candidate_view"
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/candidates_view_height"
-        android:layout_weight="1"
-        />
-
-    <ImageButton
-        android:id="@+id/arrow_right"
-        android:background="@drawable/arrow_bg"
-        android:src="@drawable/arrow_right"
-        android:layout_width="33dp"
-        android:layout_height="fill_parent"
-        android:clickable="true"
-        />
-
-</com.googlecode.tcime.CandidatesContainer>
+        android:id="@+id/candidates_container">
+    </GridLayout>
+</HorizontalScrollView>
