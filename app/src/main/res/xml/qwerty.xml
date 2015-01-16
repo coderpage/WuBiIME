@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 /*
- * Copyright 2010 Google Inc.
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -61,8 +59,11 @@
 
     <Row>
         <Key
-            android:codes="97"
             android:keyEdgeFlags="left"
+            android:codes="97"
+            android:keyWidth="2.63%p" />
+        <Key
+            android:codes="97"
             android:keyLabel="a"/>
         <Key
             android:codes="115"
@@ -87,22 +88,18 @@
             android:keyLabel="k"/>
         <Key
             android:codes="108"
-            android:keyLabel="l"/>
-        <Key
-            android:codes="39"
             android:keyEdgeFlags="right"
-            android:keyLabel="\'"/>
+            android:keyLabel="l"/>
     </Row>
 
     <Row>
         <Key
             android:codes="-1"
-            android:iconPreview="@drawable/shift_popup_icon"
             android:isModifier="true"
             android:isSticky="true"
             android:keyEdgeFlags="left"
             android:keyIcon="@drawable/shift_icon"
-            android:keyWidth="18%p"/>
+            android:keyWidth="7.63%p"/>
         <Key
             android:codes="122"
             android:keyLabel="z"/>
@@ -126,14 +123,14 @@
             android:keyLabel="m"/>
         <Key
             android:codes="44"
+            android:keyLabel=","/>
+        <Key
+            android:codes="46"
             android:keyEdgeFlags="right"
-            android:keyLabel=","
-            android:keyWidth="12%p"
-            android:popupKeyboard="@xml/popup_domain"/>
+            android:keyLabel="."/>
     </Row>
 
     <Row
-        android:keyHeight="@dimen/key_height_bottom_row"
         android:rowEdgeFlags="bottom">
         <Key
             android:codes="-200"
@@ -148,23 +145,19 @@
         <Key
             android:codes="46"
             android:keyLabel="."
-            android:keyWidth="12%p"
-            android:popupKeyboard="@xml/popup_punctuation_en"/>
+            android:keyWidth="12%p"/>
         <Key
             android:codes="32"
-            android:iconPreview="@drawable/space_popup_icon"
             android:isRepeatable="true"
-            android:keyIcon="@drawable/space_icon"
+            android:keyIcon="@drawable/space"
             android:keyWidth="30%p"/>
         <Key
             android:codes="-5"
-            android:iconPreview="@drawable/delete_popup_icon"
             android:isRepeatable="true"
             android:keyIcon="@drawable/delete_icon"
             android:keyWidth="15%p"/>
         <Key
             android:codes="10"
-            android:iconPreview="@drawable/enter_popup_icon"
             android:keyEdgeFlags="right"
             android:keyIcon="@drawable/enter_icon"
             android:keyWidth="15%p"/>

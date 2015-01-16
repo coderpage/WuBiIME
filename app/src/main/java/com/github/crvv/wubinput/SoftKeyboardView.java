@@ -29,8 +29,6 @@ import java.lang.reflect.Method;
  */
 public class SoftKeyboardView extends KeyboardView {
 
-    private static final int FULL_WIDTH_OFFSET = 0xFEE0;
-
     private SoftKeyboard currentKeyboard;
     private boolean capsLock;
 
@@ -40,7 +38,7 @@ public class SoftKeyboardView extends KeyboardView {
         try {
             invalidateKeyMethod = KeyboardView.class.getMethod(
                     "invalidateKey", new Class[]{int.class});
-        } catch (NoSuchMethodException nsme) {
+        } catch (NoSuchMethodException e) {
         }
     }
 
@@ -111,14 +109,8 @@ public class SoftKeyboardView extends KeyboardView {
 
     @Override
     protected boolean onLongPress(Key key) {
-        // 0xFF01~0xFF5E map to the full-width forms of the characters from
-        // 0x21~0x7E. Make the long press as producing corresponding full-width
-        // forms for these characters by adding the offset (0xff01 - 0x21).
-        if (currentKeyboard != null && currentKeyboard.isSymbols() && key.popupResId == 0 && key.codes[0] >= 0x21 && key.codes[0] <= 0x7E) {
-            getOnKeyboardActionListener().onKey(key.codes[0] + FULL_WIDTH_OFFSET, null);
-            return true;
-        }
-        else if (key.codes[0] == SoftKeyboard.KEYCODE_MODE_CHANGE_LETTER) {
+
+        if (key.codes[0] == SoftKeyboard.KEYCODE_MODE_CHANGE_LETTER) {
             getOnKeyboardActionListener().onKey(SoftKeyboard.KEYCODE_OPTIONS, null);
             return true;
         }

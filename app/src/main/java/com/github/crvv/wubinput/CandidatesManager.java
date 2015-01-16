@@ -39,10 +39,9 @@ public class CandidatesManager {
         main = ims;
         mCandidatesView = main.getLayoutInflater().inflate(R.layout.candidates, null);
         mContainer = (ViewGroup)mCandidatesView.findViewById(R.id.candidates_container);
-//        mCandidatesView.findViewById(R.id.horizontalScrollView).setLayoutParams(new ViewGroup.LayoutParams(main.getMaxWidth(), ViewGroup.LayoutParams.WRAP_CONTENT));
     }
     public static CandidatesManager getInstance(InputMethodService ims){
-        if(mInstance == null)mInstance = new CandidatesManager(ims);
+        mInstance = new CandidatesManager(ims);
         return mInstance;
     }
     public static CandidatesManager getInstance(){
@@ -50,6 +49,9 @@ public class CandidatesManager {
     }
     public View getCandidatesView(){
         return mCandidatesView;
+    }
+    public boolean hasCandidate(){
+        return mContainer.getChildCount() > 0;
     }
     public void setCandidateViewListener(CandidateViewListener listener) {
         this.mListener = listener;
@@ -70,7 +72,7 @@ public class CandidatesManager {
     }
 
     public boolean pickFirstCandidate() {
-        if(mContainer.getChildCount() == 0)return false;
+        if(!hasCandidate())return false;
         TextView wordView = (TextView)mContainer.getChildAt(0).findViewById(R.id.word);
         mListener.onPickCandidate(wordView.getText().toString());
         return true;

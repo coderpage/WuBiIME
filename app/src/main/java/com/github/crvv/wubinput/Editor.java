@@ -14,7 +14,6 @@
 
 package com.github.crvv.wubinput;
 
-import android.inputmethodservice.Keyboard;
 import android.text.InputType;
 import android.view.inputmethod.InputConnection;
 
@@ -117,7 +116,7 @@ public class Editor {
      * @return {@code true} if the key is handled and consumed for composing.
      */
     public boolean compose(InputConnection ic, int keyCode) {
-        if (keyCode == Keyboard.KEYCODE_DELETE) {
+        if (keyCode == SoftKeyboard.KEYCODE_DELETE) {
             return deleteLastComposingChar(ic);
         }
 

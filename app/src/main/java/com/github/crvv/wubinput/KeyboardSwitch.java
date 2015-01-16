@@ -46,19 +46,13 @@ import android.text.InputType;
 public class KeyboardSwitch {
 
     private final Context context;
-    private final int chineseKeyboardId;
-    private SoftKeyboard numberSymbolKeyboard;
-    private SoftKeyboard shiftSymbolKeyboard;
-    private SoftKeyboard englishKeyboard;
-    private SoftKeyboard chineseKeyboard;
-    private SoftKeyboard currentKeyboard;
+    private SoftKeyboard mKeyboard;
 
     private boolean wasEnglishToSymbol;
     private int currentDisplayWidth;
 
-    public KeyboardSwitch(Context context, int chineseKeyboardId) {
+    public KeyboardSwitch(Context context) {
         this.context = context;
-        this.chineseKeyboardId = chineseKeyboardId;
     }
 
     /**
@@ -67,40 +61,27 @@ public class KeyboardSwitch {
      * @param displayWidth the display-width for keyboards.
      */
     public void initializeKeyboard(int displayWidth) {
-        if ((currentKeyboard != null) && (displayWidth == currentDisplayWidth)) {
+        if ((mKeyboard != null) && (displayWidth == currentDisplayWidth)) {
             return;
         }
 
         currentDisplayWidth = displayWidth;
-        englishKeyboard = new SoftKeyboard(context, R.xml.qwerty);
-        chineseKeyboard = new SoftKeyboard(context, chineseKeyboardId);
-        numberSymbolKeyboard = new SoftKeyboard(context, R.xml.symbols);
-        shiftSymbolKeyboard = new SoftKeyboard(context, R.xml.symbols_shift);
+        mKeyboard = new SoftKeyboard(context, R.xml.qwerty);
 
-        if (currentKeyboard == null) {
+        if (mKeyboard == null) {
             // Select English keyboard at the first time the input method is launched.
             toEnglish();
         } else {
             // Preserve the selected keyboard and its shift-status.
-            boolean isShifted = currentKeyboard.isShifted();
-            if (currentKeyboard.isEnglish()) {
-                toEnglish();
-            } else if (currentKeyboard.isChinese()) {
-                toChinese();
-            } else if (currentKeyboard.isNumberSymbol()) {
-                toNumberSymbol();
-            } else if (currentKeyboard.isShiftSymbol()) {
-                toShiftSymbol();
-            } else {
-                throw new IllegalStateException("The keyboard-mode is invalid.");
-            }
+            boolean isShifted = mKeyboard.isShifted();
+            toEnglish();
             // Restore shift-status.
-            currentKeyboard.setShifted(isShifted);
+            mKeyboard.setShifted(isShifted);
         }
     }
 
-    public Keyboard getCurrentKeyboard() {
-        return currentKeyboard;
+    public Keyboard getKeyboard() {
+        return mKeyboard;
     }
 
     /**
@@ -130,14 +111,14 @@ public class KeyboardSwitch {
                 } else {
                     // Switch to non-symbol keyboard, either Chinese or English keyboard,
                     // for other general text editing.
-                    toNonSymbols();
+//                    toNonSymbols();
                 }
                 break;
 
             default:
                 // Switch to non-symbol keyboard, either Chinese or English keyboard,
                 // for all other input types.
-                toNonSymbols();
+                toEnglish();
         }
     }
 
@@ -147,32 +128,7 @@ public class KeyboardSwitch {
      * @return {@code true} if the keyboard is switched; otherwise {@code false}.
      */
     public boolean onKey(int keyCode) {
-        switch (keyCode) {
-            case SoftKeyboard.KEYCODE_MODE_CHANGE_LETTER:
-                if (currentKeyboard.isEnglish()) {
-                    toChinese();
-                } else {
-                    toEnglish();
-                }
-                return true;
 
-            case Keyboard.KEYCODE_MODE_CHANGE:
-                if (currentKeyboard.isSymbols()) {
-                    toNonSymbols();
-                } else {
-                    toNumberSymbol();
-                }
-                return true;
-
-            case Keyboard.KEYCODE_SHIFT:
-                if (currentKeyboard.isNumberSymbol()) {
-                    toShiftSymbol();
-                    return true;
-                } else if (currentKeyboard.isShiftSymbol()) {
-                    toNumberSymbol();
-                    return true;
-                }
-        }
         // Return false if the key isn't consumed to switch a keyboard.
         return false;
     }
@@ -181,37 +137,22 @@ public class KeyboardSwitch {
      * Switches to the number-symbol keyboard and remembers if it was English.
      */
     private void toNumberSymbol() {
-        if (!currentKeyboard.isSymbols()) {
+        if (!mKeyboard.isSymbols()) {
             // Remember the current non-symbol keyboard to switch back from symbols.
-            wasEnglishToSymbol = currentKeyboard.isEnglish();
+            wasEnglishToSymbol = mKeyboard.isEnglish();
         }
 
-        currentKeyboard = numberSymbolKeyboard;
+//        mKeyboard = numberSymbolKeyboard;
     }
 
-        private void toShiftSymbol() {
-        currentKeyboard = shiftSymbolKeyboard;
-    }
 
     private void toEnglish() {
-        currentKeyboard = englishKeyboard;
+        mKeyboard = mKeyboard;
     }
 
-    private void toChinese() {
-        currentKeyboard = chineseKeyboard;
-    }
 
     /**
      * Switches from symbol (number-symbol or shift-symbol) keyboard,
      * back to the non-symbol (English or Chinese) keyboard.
      */
-    private void toNonSymbols() {
-        if (currentKeyboard.isSymbols()) {
-            if (wasEnglishToSymbol) {
-                toEnglish();
-            } else {
-                toChinese();
-            }
-        }
-    }
 }

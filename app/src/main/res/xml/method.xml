@@ -16,5 +16,7 @@
 -->
 
 <input-method xmlns:android="http://schemas.android.com/apk/res/android"
-        android:settingsActivity="com.googlecode.tcime.ImePreferenceActivity"
-/>
+        android:settingsActivity="com.github.crvv.wubinput.ImePreferenceActivity" >
+
+
+</input-method>

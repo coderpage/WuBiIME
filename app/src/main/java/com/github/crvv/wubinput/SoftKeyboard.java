@@ -27,7 +27,7 @@ public class SoftKeyboard extends Keyboard {
 
     public static final int KEYCODE_MODE_CHANGE_LETTER = -200;
     public static final int KEYCODE_OPTIONS = -100;
-    private static final int KEYCODE_ENTER = 10;
+    public static final int KEYCODE_ENTER = 10;
     private static final String ESCAPE_LABEL = "Esc";
 
     private final int id;
@@ -47,16 +47,14 @@ public class SoftKeyboard extends Keyboard {
         return id == R.xml.qwerty;
     }
 
-    public boolean isChinese() {
-        return id == R.xml.qwerty_wubi;
-    }
-
     public boolean isNumberSymbol() {
-        return id == R.xml.symbols;
+        return false;
+//        return id == R.xml.symbols;
     }
 
     public boolean isShiftSymbol() {
-        return id == R.xml.symbols_shift;
+        return false;
+//        return id == R.xml.symbols_shift;
     }
 
     /**
@@ -117,7 +115,7 @@ public class SoftKeyboard extends Keyboard {
 
     @Override
     protected Key createKeyFromXml(Resources res, Row parent, int x, int y, XmlResourceParser parser) {
-        Key key = new SoftKey(res, parent, x, y, parser);
+        Key key = new Keyboard.Key(res, parent, x, y, parser);
         if (key.codes[0] == KEYCODE_MODE_CHANGE) {
             symbolKey = key;
         } else if (key.codes[0] == KEYCODE_ENTER) {
@@ -128,22 +126,5 @@ public class SoftKeyboard extends Keyboard {
             escaped = false;
         }
         return key;
-    }
-
-    /**
-     * A soft key definition.
-     */
-    static class SoftKey extends Keyboard.Key {
-
-        public SoftKey(Resources res, Keyboard.Row parent, int x, int y, XmlResourceParser parser) {
-            super(res, parent, x, y, parser);
-        }
-
-        @Override
-        public void onReleased(boolean inside) {
-            // Override the default implementation to make the sticky status unchanged
-            // since it has been handled by SoftKeyboard and InputView.
-            pressed = !pressed;
-        }
     }
 }

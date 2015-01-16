@@ -17,7 +17,6 @@ package com.github.crvv.wubinput;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.inputmethodservice.InputMethodService;
-import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.view.KeyEvent;
 import android.view.View;
@@ -37,7 +36,7 @@ public class IME extends InputMethodService implements KeyboardView.OnKeyboardAc
     private int orientation;
 
     private KeyboardSwitch createKeyboardSwitch(Context context){
-        return new KeyboardSwitch(context, R.xml.qwerty_wubi);
+        return new KeyboardSwitch(context);
     }
 
     private Editor createEditor(){
@@ -90,6 +89,7 @@ public class IME extends InputMethodService implements KeyboardView.OnKeyboardAc
     public View onCreateInputView() {
         inputView = (SoftKeyboardView) getLayoutInflater().inflate(R.layout.input, null);
         inputView.setOnKeyboardActionListener(this);
+        inputView.setPreviewEnabled(false);
         return inputView;
     }
 
@@ -147,7 +147,7 @@ public class IME extends InputMethodService implements KeyboardView.OnKeyboardAc
     private void bindKeyboardToInputView() {
         if (inputView != null) {
             // Bind the selected keyboard to the input view.
-            inputView.setKeyboard(keyboardSwitch.getCurrentKeyboard());
+            inputView.setKeyboard(keyboardSwitch.getKeyboard());
             updateCursorCapsToInputView();
         }
     }
@@ -178,6 +178,24 @@ public class IME extends InputMethodService implements KeyboardView.OnKeyboardAc
             if ((inputView != null) && inputView.handleBack()) {
                 return true;
             }
+        }
+        else{
+            //TODO
+            switch(keyCode){
+                case KeyEvent.KEYCODE_DEL: //backspace
+                    onKey(SoftKeyboard.KEYCODE_DELETE, null);
+                    return true;
+                case KeyEvent.KEYCODE_ESCAPE: //esc
+                case KeyEvent.KEYCODE_SHIFT_LEFT: //left shift
+                case KeyEvent.KEYCODE_SHIFT_RIGHT: //right shift
+                case KeyEvent.KEYCODE_CTRL_LEFT: //left control
+                case KeyEvent.KEYCODE_FORWARD_DEL: //delete
+                default: //enter, space, tab
+                    onKey(event.getUnicodeChar(), null);
+                    return true;
+            }
+//            commitText(String.format("%04d", event.getKeyCode()));
+//            commitText(String.format("%04d", event.getUnicodeChar()));
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -250,7 +268,7 @@ public class IME extends InputMethodService implements KeyboardView.OnKeyboardAc
     }
 
     private boolean handleCapsLock(int keyCode) {
-        return (keyCode == Keyboard.KEYCODE_SHIFT) && inputView.toggleCapsLock();
+        return (keyCode == SoftKeyboard.KEYCODE_SHIFT) && inputView.toggleCapsLock();
     }
 
     private boolean handleEnter(int keyCode) {
@@ -269,13 +287,8 @@ public class IME extends InputMethodService implements KeyboardView.OnKeyboardAc
 
     private boolean handleSpace(int keyCode) {
         if (keyCode == ' ') {
-            if ((mCandidatesView != null) && mCandidatesView.isShown()) {
-                // The space key could either pick the highlighted candidate or escape
-                // if there's no highlighted candidate and no composing-text.
-                if (!mCandidatesManager.pickFirstCandidate()
-                        && !editor.hasComposingText()) {
-                    escape();
-                }
+            if (mCandidatesManager.hasCandidate()) {
+                mCandidatesManager.pickFirstCandidate();
             } else {
                 commitText(" ");
             }
@@ -286,7 +299,7 @@ public class IME extends InputMethodService implements KeyboardView.OnKeyboardAc
 
     private boolean handleDelete(int keyCode) {
         // Handle delete-key only when no composing text.
-        if ((keyCode == Keyboard.KEYCODE_DELETE) && !editor.hasComposingText()) {
+        if ((keyCode == SoftKeyboard.KEYCODE_DELETE) && !editor.hasComposingText()) {
             if (inputView.hasEscape()) {
                 escape();
             } else {
@@ -328,10 +341,10 @@ public class IME extends InputMethodService implements KeyboardView.OnKeyboardAc
     public void onClick(View view){
         mCandidatesManager.onClick(view);
     }
-    @Override
-    public void onDestroy(){
-        mCandidatesManager.onDestroy();
-        super.onDestroy();
-    }
 
+
+    @Override
+    public boolean onEvaluateInputViewShown(){
+        return true;
+    }
 }
