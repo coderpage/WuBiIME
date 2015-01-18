@@ -9,18 +9,18 @@
               android:onClick="onClick"
     >
     <TextView
-        android:layout_width="12sp"
+        android:layout_width="@dimen/candidate_num_size"
         android:layout_height="fill_parent"
-        android:textSize="12sp"
+        android:textSize="@dimen/candidate_num_size"
         android:singleLine="false"
         android:id="@+id/word_num"
-        />
+        android:gravity="right"/>
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="40sp"
+        android:layout_height="fill_parent"
         android:includeFontPadding="false"
-        android:textSize="36sp"
-        android:background="#ccc"
+        android:textSize="@dimen/candidate_text_size"
+        android:background="@color/candidate_normal"
         android:id="@+id/word"
         />
 </LinearLayout>

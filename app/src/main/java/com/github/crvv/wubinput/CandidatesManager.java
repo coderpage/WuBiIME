@@ -50,8 +50,8 @@ public class CandidatesManager {
     public View getCandidatesView(){
         return mCandidatesView;
     }
-    public boolean hasCandidate(){
-        return mContainer.getChildCount() > 0;
+    public int hasCandidate(){
+        return mContainer.getChildCount();
     }
     public void setCandidateViewListener(CandidateViewListener listener) {
         this.mListener = listener;
@@ -71,9 +71,9 @@ public class CandidatesManager {
         }
     }
 
-    public boolean pickFirstCandidate() {
-        if(!hasCandidate())return false;
-        TextView wordView = (TextView)mContainer.getChildAt(0).findViewById(R.id.word);
+    public boolean pickCandidate(int index) {
+        if(index > hasCandidate())return false;
+        TextView wordView = (TextView)mContainer.getChildAt(index - 1).findViewById(R.id.word);
         mListener.onPickCandidate(wordView.getText().toString());
         return true;
     }

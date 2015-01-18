@@ -14,38 +14,42 @@
  * limitations under the License.
  */
 -->
-
-<manifest
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.github.crvv.wubinput"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:versionCode="1"
-    android:versionName="1.0"
-    >
+    android:versionName="1.0" >
 
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:icon="@drawable/icon"
-        android:label="@string/ime_name">
-
+        android:label="@string/ime_name" >
         <service
             android:name=".IME"
             android:label="@string/ime_name"
-            android:permission="android.permission.BIND_INPUT_METHOD">
+            android:permission="android.permission.BIND_INPUT_METHOD" >
             <intent-filter>
-                <action android:name="android.view.InputMethod"/>
+                <action android:name="android.view.InputMethod" />
             </intent-filter>
+
             <meta-data
                 android:name="android.view.im"
-                android:resource="@xml/method"/>
+                android:resource="@xml/method" />
         </service>
 
         <activity
-            android:name="com.github.crvv.wubinput.ImePreferenceActivity"
-            android:label="@string/ime_name">
+            android:name=".ImePreferenceActivity"
+            android:label="@string/ime_name" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".TestActivity"
+            android:label="@string/title_activity_test"
+            android:parentActivityName=".ImePreferenceActivity" >
+        </activity>
     </application>
+
 </manifest>

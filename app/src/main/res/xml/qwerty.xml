@@ -94,11 +94,8 @@
 
     <Row>
         <Key
-            android:codes="-1"
-            android:isModifier="true"
-            android:isSticky="true"
+            android:codes="122"
             android:keyEdgeFlags="left"
-            android:keyIcon="@drawable/shift_icon"
             android:keyWidth="7.63%p"/>
         <Key
             android:codes="122"

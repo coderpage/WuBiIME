@@ -15,6 +15,7 @@
 package com.github.crvv.wubinput;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.KeyboardView;
@@ -287,8 +288,8 @@ public class IME extends InputMethodService implements KeyboardView.OnKeyboardAc
 
     private boolean handleSpace(int keyCode) {
         if (keyCode == ' ') {
-            if (mCandidatesManager.hasCandidate()) {
-                mCandidatesManager.pickFirstCandidate();
+            if (mCandidatesManager.hasCandidate() > 0) {
+                mCandidatesManager.pickCandidate(1);
             } else {
                 commitText(" ");
             }
@@ -339,6 +340,12 @@ public class IME extends InputMethodService implements KeyboardView.OnKeyboardAc
         clearCandidates();
     }
     public void onClick(View view){
+        if(view.getId() == R.id.setting_button){
+            Intent pref = new Intent(this, ImePreferenceActivity.class);
+            pref.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(pref);
+            return;
+        }
         mCandidatesManager.onClick(view);
     }
 
@@ -346,5 +353,9 @@ public class IME extends InputMethodService implements KeyboardView.OnKeyboardAc
     @Override
     public boolean onEvaluateInputViewShown(){
         return true;
+    }
+    @Override
+    public boolean onEvaluateFullscreenMode(){
+        return false;
     }
 }

@@ -138,7 +138,7 @@ public class Editor {
             return false;
         }
         if (composingText.length() >= maxLength) {
-            CandidatesManager.getInstance().pickFirstCandidate();
+            CandidatesManager.getInstance().pickCandidate(1);
             clearComposingText(ic);
         }
         composingText.append(c);

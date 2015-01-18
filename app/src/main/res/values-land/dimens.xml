@@ -16,6 +16,5 @@
 -->
 
 <resources>
-    <dimen name="key_height">51dp</dimen>
-    <dimen name="key_height_bottom_row">48dp</dimen>
+    <dimen name="key_height">40dp</dimen>
 </resources>

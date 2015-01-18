@@ -40,12 +40,26 @@ public class Dictionary {
         return mInstance;
     }
     public ArrayList<String> getCandidates(String input){
+        if(input.length() == 0)return null;
         while(!isAvailable);
-        return mDict.get(input);
+        ArrayList<String> candidates = readDict(input);
+        if(!candidates.isEmpty() || input.length() > 3)return candidates;
+
+        StringBuilder code = new StringBuilder(input);
+        while(candidates.isEmpty() && code.length() < 5){
+            code = code.append(code.charAt(code.length() - 1));
+            candidates = readDict(code);
+        }
+        return candidates;
     }
     private Dictionary(Context context){
         main = context;
         new ReadDictionary().execute();
+    }
+    private ArrayList<String> readDict(CharSequence code){
+        ArrayList<String> candidates = mDict.get(code.toString());
+        if(candidates == null)candidates = new ArrayList<>();
+        return candidates;
     }
 
     private Map<String, ArrayList<String>> readDictFromResource(){
@@ -61,11 +75,15 @@ public class Dictionary {
             String line;
             while ((line = bufferedResourceReader.readLine()) != null) {
                 String[] words = line.split(" ");
-                if (dict.containsKey(words[0])) {
-                    dict.get(words[0]).add(words[1]);
-                } else {
+                if(dict.containsKey(words[0])){
+                    for(int i = 1; i < words.length; i++)
+                        dict.get(words[0]).add(words[i]);
+                }
+
+                else {
                     ArrayList<String> list = new ArrayList<>();
-                    list.add(words[1]);
+                    for(int i = 1; i < words.length; i++)
+                        list.add(words[i]);
                     dict.put(words[0], list);
                 }
             }
