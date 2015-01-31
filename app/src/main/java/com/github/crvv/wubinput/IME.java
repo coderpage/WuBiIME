@@ -184,16 +184,26 @@ public class IME extends InputMethodService implements KeyboardView.OnKeyboardAc
             //TODO
             switch(keyCode){
                 case KeyEvent.KEYCODE_DEL: //backspace
-                    onKey(SoftKeyboard.KEYCODE_DELETE, null);
+                    onKey(SoftKeyboard.KEYCODE_BACKSPACE, null);
                     return true;
                 case KeyEvent.KEYCODE_ESCAPE: //esc
                 case KeyEvent.KEYCODE_SHIFT_LEFT: //left shift
                 case KeyEvent.KEYCODE_SHIFT_RIGHT: //right shift
                 case KeyEvent.KEYCODE_CTRL_LEFT: //left control
                 case KeyEvent.KEYCODE_FORWARD_DEL: //delete
-                default: //enter, space, tab
+                case KeyEvent.KEYCODE_ENTER: //enter
+                case KeyEvent.KEYCODE_SPACE: //space
+                case KeyEvent.KEYCODE_TAB: //tab
                     onKey(event.getUnicodeChar(), null);
                     return true;
+            }
+            if(keyCode >= KeyEvent.KEYCODE_0 && keyCode <= KeyEvent.KEYCODE_9){
+                onKey(event.getUnicodeChar(), null);
+                return true;
+            }
+            if(keyCode >= KeyEvent.KEYCODE_A && keyCode <= KeyEvent.KEYCODE_PERIOD){
+                onKey(event.getUnicodeChar(), null);
+                return true;
             }
 //            commitText(String.format("%04d", event.getKeyCode()));
 //            commitText(String.format("%04d", event.getUnicodeChar()));
@@ -207,7 +217,7 @@ public class IME extends InputMethodService implements KeyboardView.OnKeyboardAc
             bindKeyboardToInputView();
             return;
         }
-        if (handleOption(primaryCode) || handleCapsLock(primaryCode)
+        if (handleCapsLock(primaryCode)
                 || handleEnter(primaryCode) || handleSpace(primaryCode)
                 || handleDelete(primaryCode) || handleComposing(primaryCode)) {
             return;
@@ -248,7 +258,7 @@ public class IME extends InputMethodService implements KeyboardView.OnKeyboardAc
     }
 
     private void clearCandidates() {
-        setCandidates(new ArrayList<String>());
+        setCandidates(null);
     }
 
     private void setCandidates(ArrayList<String> words) {
@@ -259,22 +269,13 @@ public class IME extends InputMethodService implements KeyboardView.OnKeyboardAc
             }
         }
     }
-
-    private boolean handleOption(int keyCode) {
-        if (keyCode == SoftKeyboard.KEYCODE_OPTIONS) {
-            // TODO: Do voice input here.
-            return true;
-        }
-        return false;
-    }
-
     private boolean handleCapsLock(int keyCode) {
         return (keyCode == SoftKeyboard.KEYCODE_SHIFT) && inputView.toggleCapsLock();
     }
 
     private boolean handleEnter(int keyCode) {
         if (keyCode == '\n') {
-            if (inputView.hasEscape()) {
+            if (editor.hasComposingText()) {
                 escape();
             } else if (editor.treatEnterAsLinkBreak()) {
                 commitText("\n");
@@ -300,7 +301,7 @@ public class IME extends InputMethodService implements KeyboardView.OnKeyboardAc
 
     private boolean handleDelete(int keyCode) {
         // Handle delete-key only when no composing text.
-        if ((keyCode == SoftKeyboard.KEYCODE_DELETE) && !editor.hasComposingText()) {
+        if ((keyCode == SoftKeyboard.KEYCODE_BACKSPACE) && !editor.hasComposingText()) {
             if (inputView.hasEscape()) {
                 escape();
             } else {

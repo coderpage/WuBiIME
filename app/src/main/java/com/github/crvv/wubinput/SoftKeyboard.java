@@ -25,8 +25,7 @@ import android.inputmethodservice.Keyboard;
  */
 public class SoftKeyboard extends Keyboard {
 
-    public static final int KEYCODE_MODE_CHANGE_LETTER = -200;
-    public static final int KEYCODE_OPTIONS = -100;
+    public static final int KEYCODE_BACKSPACE = KEYCODE_DELETE;
     public static final int KEYCODE_ENTER = 10;
     private static final String ESCAPE_LABEL = "Esc";
 

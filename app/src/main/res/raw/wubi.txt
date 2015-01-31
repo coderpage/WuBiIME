@@ -9289,7 +9289,7 @@ dgsu 石栏
 dgsv 硬要
 dgsw 古松
 dgsy 石柱 砞
-dgt 厂 丆  厰 廠
+dgt 厂 厰 廠
 dgta 厂长
 dgtb 三季
 dgtc 石径
@@ -19486,7 +19486,7 @@ gggc 一致
 gggd 一天 一天天
 ggge 一表
 gggf 环球 不至于 一五一十
-gggg 王 五一 琵琶 
+gggg 王 五一 琵琶
 gggh 一下 不理不睬
 gggi 不死不活
 gggj 一天到晚 五更
@@ -41638,7 +41638,7 @@ nnkw 性情中人
 nnl 乙
 nnlg 快车
 nnlk 书架
-nnll 乙 乚 乛  ⺄ 乀
+nnll 乙 乚 乛 ⺄ 乀
 nnlx 发愤图强
 nnme 尸骨
 nnmk 心惊肉跳
@@ -46959,7 +46959,7 @@ pvge 安静
 pvgf 安于 宝刀不老
 pvgu 安平
 pvhh 安上
-pvhj 案桌
+pvhj 案桌 Android
 pvhn 安眠
 pvht 安睡
 pvid 案源 安源
@@ -65895,7 +65895,7 @@ udhk 差点 善战
 udhn 头颅 瘛
 udhv 着眼 养眼
 udhw 瘨 闐
-udi 头  頭
+udi 头 頭
 udib 差池
 udic 养汉
 udie 减削
@@ -80301,7 +80301,7 @@ yjsy 课 課
 yjta 计日程功
 yjtg 謃
 yjtk 课程
-yjtl 齐备
+yjtl 刘备
 yjtq 度量衡
 yjtr 齐物
 yjts 识时务者为俊杰

@@ -95,7 +95,6 @@ public class SoftKeyboardView extends KeyboardView {
             }
         }
     }
-
     @Override
     public void setKeyboard(Keyboard keyboard) {
         if (keyboard instanceof SoftKeyboard) {
@@ -106,17 +105,4 @@ public class SoftKeyboardView extends KeyboardView {
         }
         super.setKeyboard(keyboard);
     }
-
-    @Override
-    protected boolean onLongPress(Key key) {
-
-        if (key.codes[0] == SoftKeyboard.KEYCODE_MODE_CHANGE_LETTER) {
-            getOnKeyboardActionListener().onKey(SoftKeyboard.KEYCODE_OPTIONS, null);
-            return true;
-        }
-        else {
-            return super.onLongPress(key);
-        }
-    }
-
 }

@@ -26,7 +26,7 @@
         android:layout_width="@dimen/candidates_view_height"
         android:layout_height="@dimen/candidates_view_height"
         android:id="@+id/setting_button"
-        android:src="@drawable/ic_action_settings"
+        android:src="@drawable/sym_keyboard_settings_lxx_light"
         android:onClick="onClick"
         />
     <HorizontalScrollView

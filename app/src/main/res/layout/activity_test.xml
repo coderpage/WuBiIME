@@ -12,7 +12,7 @@
     <EditText
         android:labelFor="@+id/test_text"
         android:id="@+id/test_text"
-        android:inputType="text|textMultiLine"
+        android:inputType="text|textMultiLine|textNoSuggestions"
         android:textSize="32sp"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

@@ -72,6 +72,7 @@ public class Editor {
     private void updateComposingText(InputConnection ic) {
         if (ic != null) {
             // Set cursor position 1 to advance the cursor to the text end.
+            // TODO: if composingText.length()==0, E/SpannableStringBuilder﹕ SPAN_EXCLUSIVE_EXCLUSIVE spans cannot have a zero length
             ic.setComposingText(composingText, 1);
         }
     }
@@ -116,7 +117,7 @@ public class Editor {
      * @return {@code true} if the key is handled and consumed for composing.
      */
     public boolean compose(InputConnection ic, int keyCode) {
-        if (keyCode == SoftKeyboard.KEYCODE_DELETE) {
+        if (keyCode == SoftKeyboard.KEYCODE_BACKSPACE) {
             return deleteLastComposingChar(ic);
         }
 

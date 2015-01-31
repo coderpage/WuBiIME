@@ -79,7 +79,6 @@ public class Dictionary {
                     for(int i = 1; i < words.length; i++)
                         dict.get(words[0]).add(words[i]);
                 }
-
                 else {
                     ArrayList<String> list = new ArrayList<>();
                     for(int i = 1; i < words.length; i++)
