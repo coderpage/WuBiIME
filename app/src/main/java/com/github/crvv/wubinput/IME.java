@@ -27,7 +27,9 @@ import android.view.inputmethod.InputConnection;
 import java.util.ArrayList;
 
 
-public class IME extends InputMethodService implements KeyboardView.OnKeyboardActionListener, CandidatesManager.CandidateViewListener {
+public class IME extends InputMethodService implements
+        KeyboardView.OnKeyboardActionListener,
+        CandidatesManager.CandidateViewListener {
 
     protected SoftKeyboardView inputView;
     private View mCandidatesView;
