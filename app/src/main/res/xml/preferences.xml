@@ -33,4 +33,11 @@
             android:targetClass="com.coderpage.wubinput.TestActivity"/>
     </Preference>
 
+    <Preference android:title="@string/prefs_practice">
+        <intent
+            android:action="com.coderpage.intent.action.practiceActivity"
+            android:targetPackage="com.coderpage.wubinput.activity"
+            android:targetClass="com.coderpage.wubinput.activity.PracticeActivity"/>
+    </Preference>
+
 </PreferenceScreen>

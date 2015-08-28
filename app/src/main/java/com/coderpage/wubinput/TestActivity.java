@@ -15,7 +15,7 @@ public class TestActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
-        setActionBar();
+//        setActionBar();
     }
 
     @TargetApi(11)

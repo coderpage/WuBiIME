@@ -19,6 +19,7 @@
     <!-- Titles for IME -->
     <string name="ime_name">五笔输入法</string>
     <string name="title_activity_test">测试</string>
+    <string name="title_activity_practice">练习</string>
 
     <!-- Labels on soft keys -->
     <string name="label_english">英文</string>
@@ -28,6 +29,7 @@
     <string name="prefs_enable_ime">启用输入法</string>
     <string name="prefs_pick_ime">选择输入法</string>
     <string name="prefs_test">测试</string>
+    <string name="prefs_practice">练习</string>
     
     <!-- help -->
 

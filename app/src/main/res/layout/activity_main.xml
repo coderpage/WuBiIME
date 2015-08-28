@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:divider="#000"
+              android:showDividers="end"
+              android:dividerPadding="1dp"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textSize="25dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center_vertical"
+        android:clickable="true"
+        android:onClick="enableIME"
+        android:text="@string/prefs_enable_ime"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textSize="25dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center_vertical"
+        android:clickable="true"
+        android:onClick="pickIME"
+        android:text="@string/prefs_pick_ime"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textSize="25dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center_vertical"
+        android:clickable="true"
+        android:onClick="test"
+        android:text="@string/prefs_test"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textSize="25dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center_vertical"
+        android:clickable="true"
+        android:onClick="practice"
+        android:text="@string/prefs_practice"/>
+
+</LinearLayout>

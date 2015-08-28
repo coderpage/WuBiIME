@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.coderpage.wubinput"
-        minSdkVersion 9
+        minSdkVersion 11
         targetSdkVersion 21
     }
 
@@ -16,4 +16,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+}
+
+dependencies {
+    compile 'com.android.support:support-v4:21.0.3'
+    compile 'com.android.support:appcompat-v7:21.0.3'
 }
