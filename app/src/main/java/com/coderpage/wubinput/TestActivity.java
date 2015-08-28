@@ -1,4 +1,4 @@
-package com.github.crvv.wubinput;
+package com.coderpage.wubinput;
 
 import android.app.Activity;
 import android.os.Bundle;

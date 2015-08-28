@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.github.crvv.wubinput;
+package com.coderpage.wubinput;
 
 import android.content.Context;
 import android.inputmethodservice.Keyboard;

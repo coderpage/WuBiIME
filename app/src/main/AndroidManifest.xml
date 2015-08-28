@@ -15,7 +15,7 @@
  */
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.github.crvv.wubinput"
+    package="com.coderpage.wubinput"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -25,7 +25,7 @@
         android:icon="@drawable/icon"
         android:label="@string/ime_name" >
         <service
-            android:name=".IME"
+            android:name="com.coderpage.crvv.wubinput.IME"
             android:label="@string/ime_name"
             android:permission="android.permission.BIND_INPUT_METHOD" >
             <intent-filter>
@@ -38,7 +38,7 @@
         </service>
 
         <activity
-            android:name=".ImePreferenceActivity"
+            android:name="com.coderpage.crvv.wubinput.ImePreferenceActivity"
             android:label="@string/ime_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,9 +46,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".TestActivity"
+            android:name="com.coderpage.crvv.wubinput.TestActivity"
             android:label="@string/title_activity_test"
-            android:parentActivityName=".ImePreferenceActivity" >
+            android:parentActivityName="com.coderpage.crvv.wubinput.ImePreferenceActivity" >
         </activity>
     </application>
 
