@@ -1,17 +1,3 @@
-/*
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.coderpage.wubinput;
 
 import android.content.Context;
@@ -19,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.KeyboardView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -30,6 +17,9 @@ import java.util.ArrayList;
 public class IME extends InputMethodService implements
         KeyboardView.OnKeyboardActionListener,
         CandidatesManager.CandidateViewListener {
+
+    private final String tag = IME.class.getSimpleName();
+    private final boolean debug = true;
 
     protected SoftKeyboardView inputView;
     private View mCandidatesView;
@@ -56,6 +46,10 @@ public class IME extends InputMethodService implements
         orientation = getResources().getConfiguration().orientation;
         // Use the following line to debug IME service.
         //android.os.Debug.waitForDebugger();
+
+        if (debug){
+            Log.d(tag,"onCreate ..");
+        }
     }
 
     @Override
@@ -66,6 +60,10 @@ public class IME extends InputMethodService implements
             orientation = newConfig.orientation;
         }
         super.onConfigurationChanged(newConfig);
+
+        if (debug){
+            Log.d(tag,"onConfigurationChanged ..");
+        }
     }
 
     @Override
@@ -80,16 +78,29 @@ public class IME extends InputMethodService implements
         }
         // Update the caps-lock status for the current cursor position.
         updateCursorCapsToInputView();
+
+        if (debug){
+            Log.d(tag,"onUpdateSelection ..");
+        }
     }
 
     @Override
     public void onComputeInsets(InputMethodService.Insets outInsets) {
         super.onComputeInsets(outInsets);
         outInsets.contentTopInsets = outInsets.visibleTopInsets;
+
+        if (debug){
+            Log.d(tag,"onComputeInsets ..");
+        }
     }
 
     @Override
     public View onCreateInputView() {
+
+        if (debug){
+            Log.d(tag,"onCreateInputView ..");
+        }
+
         inputView = (SoftKeyboardView) getLayoutInflater().inflate(R.layout.input, null);
         inputView.setOnKeyboardActionListener(this);
         inputView.setPreviewEnabled(false);
@@ -98,6 +109,10 @@ public class IME extends InputMethodService implements
 
     @Override
     public View onCreateCandidatesView() {
+        if (debug){
+            Log.d(tag,"onCreateCandidatesView ..");
+        }
+
         mCandidatesManager = CandidatesManager.getInstance(this);
         mCandidatesView = mCandidatesManager.getCandidatesView();
         mCandidatesManager.setCandidateViewListener(this);
@@ -117,6 +132,10 @@ public class IME extends InputMethodService implements
         // Select a keyboard based on the input type of the editing field.
         keyboardSwitch.onStartInput(attribute.inputType);
         bindKeyboardToInputView();
+
+        if (debug){
+            Log.d(tag,"onStartInputView ..");
+        }
     }
 
     @Override
@@ -125,6 +144,10 @@ public class IME extends InputMethodService implements
         // onFinishInputView, onFinishCandidatesView, and onUnbindInput.
         editor.clearComposingText(getCurrentInputConnection());
         super.onFinishInput();
+
+        if (debug){
+            Log.d(tag,"onFinishInput ..");
+        }
     }
 
     @Override
@@ -133,18 +156,30 @@ public class IME extends InputMethodService implements
         super.onFinishInputView(finishingInput);
         // Dismiss any pop-ups when the input-view is being finished and hidden.
         inputView.closing();
+
+        if (debug){
+            Log.d(tag,"onFinishInputView ..");
+        }
     }
 
     @Override
     public void onFinishCandidatesView(boolean finishingInput) {
         editor.clearComposingText(getCurrentInputConnection());
         super.onFinishCandidatesView(finishingInput);
+
+        if (debug){
+            Log.d(tag,"onFinishCandidatesView ..");
+        }
     }
 
     @Override
     public void onUnbindInput() {
         editor.clearComposingText(getCurrentInputConnection());
         super.onUnbindInput();
+
+        if (debug){
+            Log.d(tag,"onUnbindInput ..");
+        }
     }
 
     private void bindKeyboardToInputView() {
@@ -176,6 +211,10 @@ public class IME extends InputMethodService implements
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (debug){
+            Log.d(tag,"onKeyDown .." + "  event.getUnicodeChar:" + event.getUnicodeChar() +"  keyCode:" + keyCode);
+        }
+
         if ((keyCode == KeyEvent.KEYCODE_BACK) && (event.getRepeatCount() == 0)) {
             // Handle the back-key to close the pop-up keyboards.
             if ((inputView != null) && inputView.handleBack()) {
@@ -210,6 +249,7 @@ public class IME extends InputMethodService implements
 //            commitText(String.format("%04d", event.getKeyCode()));
 //            commitText(String.format("%04d", event.getUnicodeChar()));
         }
+
         return super.onKeyDown(keyCode, event);
     }
 
@@ -355,10 +395,19 @@ public class IME extends InputMethodService implements
 
     @Override
     public boolean onEvaluateInputViewShown(){
+        if (debug){
+            Log.d(tag,"onEvaluateInputViewShown ..");
+        }
+
         return true;
     }
     @Override
     public boolean onEvaluateFullscreenMode(){
+
+        if (debug){
+            Log.d(tag,"onEvaluateFullscreenMode ..");
+        }
+
         return false;
     }
 }

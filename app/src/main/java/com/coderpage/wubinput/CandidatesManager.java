@@ -24,31 +24,36 @@ public class CandidatesManager {
     private CandidatesManager(InputMethodService ims) {
         main = ims;
         mCandidatesView = main.getLayoutInflater().inflate(R.layout.candidates, null);
-        mContainer = (ViewGroup)mCandidatesView.findViewById(R.id.candidates_container);
+        mContainer = (ViewGroup) mCandidatesView.findViewById(R.id.candidates_container);
     }
-    public static CandidatesManager getInstance(InputMethodService ims){
+
+    public static CandidatesManager getInstance(InputMethodService ims) {
         mInstance = new CandidatesManager(ims);
         return mInstance;
     }
-    public static CandidatesManager getInstance(){
+
+    public static CandidatesManager getInstance() {
         return mInstance;
     }
-    public View getCandidatesView(){
+
+    public View getCandidatesView() {
         return mCandidatesView;
     }
-    public int hasCandidate(){
+
+    public int hasCandidate() {
         return mContainer.getChildCount();
     }
+
     public void setCandidateViewListener(CandidateViewListener listener) {
         this.mListener = listener;
     }
 
     public void setCandidates(ArrayList<String> words) {
         mContainer.removeAllViews();
-        if(words == null)return;
+        if (words == null) return;
 
         int index = 1;
-        for(String word : words){
+        for (String word : words) {
             LinearLayout candidate = (LinearLayout) main.getLayoutInflater().inflate(R.layout.word, mContainer, false);
             ((TextView) candidate.findViewById(R.id.word_num)).setText(String.valueOf(index));
             ((TextView) candidate.findViewById(R.id.word)).setText(word);
@@ -58,19 +63,23 @@ public class CandidatesManager {
     }
 
     public boolean pickCandidate(int index) {
-        if(index > hasCandidate())return false;
-        TextView wordView = (TextView)mContainer.getChildAt(index - 1).findViewById(R.id.word);
+        if (index > hasCandidate()) {
+            return false;
+        }
+        TextView wordView = (TextView) mContainer.getChildAt(index - 1).findViewById(R.id.word);
         mListener.onPickCandidate(wordView.getText().toString());
         return true;
     }
 
-    public void onClick(View view){
-        mListener.onPickCandidate(((TextView)view.findViewById(R.id.word)).getText().toString());
+    public void onClick(View view) {
+        mListener.onPickCandidate(((TextView) view.findViewById(R.id.word)).getText().toString());
     }
+
     public static interface CandidateViewListener {
         void onPickCandidate(String candidate);
     }
-    public void onDestroy(){
+
+    public void onDestroy() {
         mInstance = null;
     }
 }
