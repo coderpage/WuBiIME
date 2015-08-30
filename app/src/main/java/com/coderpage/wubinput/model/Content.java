@@ -1,29 +1,48 @@
 package com.coderpage.wubinput.model;
 
+import android.widget.TextView;
+
+import com.coderpage.wubinput.Global;
+import com.coderpage.wubinput.tools.Utils;
+import com.coderpage.wubinput.tools.ViewUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author abner-l
  * @since 2015-08-29
  */
 public class Content {
-    private final List<Word> words = new ArrayList<>();
 
-    public void addWord(Word word){
-        words.add(word);
+    private final List<String> lines = new ArrayList<>();
+
+
+    public Content(String content, TextView view) {
+        Global global = Global.getInstance(view.getContext());
+
+        float lineMaxLen = global.windowWidth - Utils.dip2px(view.getContext(),20);
+        float totalLen = 0;
+        int sPos = 0;
+        String line;
+
+        for (int i = 0; i < content.length(); i++) {
+
+            totalLen += ViewUtil.measureTextWidth(view, String.valueOf(content.charAt(i)));
+
+            if (totalLen >= lineMaxLen) {
+                line = content.substring(sPos, i);
+                sPos = i;
+                lines.add(line);
+                totalLen = 0;
+            }
+        }
+
+        line = content.substring(sPos);
+        lines.add(line);
     }
 
-    public void removeWord(Word word){
-        words.remove(word);
-    }
-
-    public List<Word> getWords() {
-        return words;
-    }
-
-    public int size(){
-        return words.size();
+    public List<String> getLines() {
+        return lines;
     }
 }
