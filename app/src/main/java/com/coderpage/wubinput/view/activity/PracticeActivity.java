@@ -2,6 +2,7 @@ package com.coderpage.wubinput.view.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,7 +12,9 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -46,7 +49,9 @@ public class PracticeActivity extends Activity {
 
     private int currentPos = 0;
     private int maxPos = 0;
+    private int delTimes = 0;
 
+    //    InputEditorActionListener editorActionListener = new InputEditorActionListener(this);
     TextWatcher watcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -72,6 +77,19 @@ public class PracticeActivity extends Activity {
             }
         }
     };
+
+//    private View.OnKeyListener onKeyListener = new View.OnKeyListener() {
+//        @Override
+//        public boolean onKey(View v, int keyCode, KeyEvent event) {
+//
+//            if (keyCode == KeyEvent.KEYCODE_DEL) {
+//                onDelText();
+//                return true;
+//            }
+//
+//            return false;
+//        }
+//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +125,7 @@ public class PracticeActivity extends Activity {
             practiceSourceTV = currentInputView.getInputSrcView();
             practiceInputET = currentInputView.getInputEditText();
             practiceInputET.addTextChangedListener(watcher);
+//            practiceInputET.setOnEditorActionListener(editorActionListener);
             practiceInputET.setEnabled(true);
             practiceInputET.requestFocus();
         }
@@ -189,6 +208,28 @@ public class PracticeActivity extends Activity {
         }
     }
 
+    /**
+     * 当点击删除按钮会被调用
+     */
+    public void onDelText() {
+        if (debug) {
+            Log.d(tag, "onDelText..");
+        }
+
+        if (practiceInputET.getText().length() == 0) {
+            delTimes++;
+            if (shouldPreLine()) {
+                goPreLine();
+            }
+        } else {
+            resetDelTimes();
+        }
+    }
+
+    private boolean shouldPreLine() {
+        return delTimes >= 2;
+    }
+
     private void goNextLine(String overData) {
         if (haveNextLine()) {
             practiceInputET.clearFocus();
@@ -207,6 +248,7 @@ public class PracticeActivity extends Activity {
                 practiceInputET.setSelection(overData.length());
                 onCurChanged(overData);
             }
+            showSofeInputKeyBoard();
 
         } else {
             if (practiceInputET.watcherSize == 0) {
@@ -218,7 +260,23 @@ public class PracticeActivity extends Activity {
     }
 
     private void goPreLine() {
+        if (havePreLine()) {
+            practiceInputET.setEnabled(false);
+            practiceInputET.clearFocus();
+            practiceInputET.removeTextChangedListener(watcher);
 
+            currentInputView = inputViews.get(--currentPos);
+            practiceSourceTV = currentInputView.getInputSrcView();
+            practiceInputET = currentInputView.getInputEditText();
+            practiceInputET.addTextChangedListener(watcher);
+            practiceInputET.setEnabled(true);
+            practiceInputET.requestFocus();
+            practiceInputET.setSelection(practiceInputET.getText().length());
+            showSofeInputKeyBoard();
+            resetDelTimes();
+        } else {
+            resetDelTimes();
+        }
     }
 
     private boolean havePreLine() {
@@ -229,28 +287,43 @@ public class PracticeActivity extends Activity {
         return currentPos < maxPos;
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.d(tag, "onRestart currentPos:" + currentPos);
+    private void resetDelTimes() {
+        delTimes = 0;
+    }
+
+    private void showSofeInputKeyBoard() {
+        InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        manager.showSoftInput(practiceInputET, InputMethodManager.SHOW_FORCED);
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(tag, "onStart currentPos:" + currentPos);
+    public boolean dispatchKeyEvent(KeyEvent event) {
+
+        if (event.getKeyCode() == KeyEvent.KEYCODE_DEL && event.getAction() == KeyEvent.ACTION_UP) {
+            onDelText();
+        }
+        return super.dispatchKeyEvent(event);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(tag, "onResume currentPos:" + currentPos);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        Log.d(tag, "onStop currentPos:" + currentPos);
-    }
+//    public static class InputEditorActionListener implements TextView.OnEditorActionListener {
+//
+//        PracticeActivity parent;
+//
+//        public InputEditorActionListener(PracticeActivity activity) {
+//            this.parent = activity;
+//        }
+//
+//        @Override
+//        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//
+//            if (event.getKeyCode() == KeyEvent.KEYCODE_DEL) {
+//
+//                parent.onDelText();
+//                Log.d("onEditorAction", KeyEvent.KEYCODE_DEL + event.toString());
+//                return true;
+//            }
+//            Log.d("onEditorAction", event.toString());
+//            return false;
+//        }
+//    }
 }
