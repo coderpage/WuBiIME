@@ -1,4 +1,4 @@
-package com.coderpage.wubinput.activity;
+package com.coderpage.wubinput.view.activity;
 
 import android.app.Activity;
 import android.content.Context;
