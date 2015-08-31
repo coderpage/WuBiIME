@@ -5,18 +5,18 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.widget.TextView;
 
 import com.coderpage.wubinput.R;
-import com.coderpage.wubinput.view.activity.PracticeActivity;
+import com.coderpage.wubinput.view.activity.BaseInputActivity;
 
 /**
  * @author abner-l
  * @since 2015-8-30
  */
-public class ViewUtilTest extends ActivityInstrumentationTestCase2<PracticeActivity> {
+public class ViewUtilTest extends ActivityInstrumentationTestCase2<BaseInputActivity> {
 
     Activity activity;
 
     public ViewUtilTest() {
-        super(PracticeActivity.class);
+        super(BaseInputActivity.class);
     }
 
     @Override

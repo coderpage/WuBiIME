@@ -127,7 +127,7 @@ public class SQLDefine {
                 + COLUMN_VALUE + " TEXT);";
     }
 
-    public static class TableWord {
+    public static class TablePhrase {
         public final static String TABLE_NAME = "word";
         public final static String COLUMN_ID = "id";
         public final static String COLUMN_KEY = "key";

@@ -30,9 +30,9 @@ import java.util.List;
  * @author abner-l
  * @since 2015-08-29
  */
-public class PracticeActivity extends Activity {
+public class BaseInputActivity extends Activity {
 
-    private String tag = PracticeActivity.class.getSimpleName();
+    private String tag = BaseInputActivity.class.getSimpleName();
     private boolean debug = true;
 
     private TextView remindTV;
@@ -52,26 +52,17 @@ public class PracticeActivity extends Activity {
     TextWatcher watcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            if (debug) {
-                Log.d(tag, "beforeTextChanged:" + s.toString());
-            }
 
         }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (debug) {
-                Log.d(tag, "onTextChanged:" + s.toString() + "  " + practiceInputET.isFocused());
-            }
-
             onCurChanged(s.toString());
         }
 
         @Override
         public void afterTextChanged(Editable s) {
-            if (debug) {
-                Log.d(tag, "afterTextChanged:" + s.toString());
-            }
+
         }
     };
 
@@ -95,7 +86,7 @@ public class PracticeActivity extends Activity {
 
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i);
-            InputView inputView = new InputView(PracticeActivity.this);
+            InputView inputView = new InputView(BaseInputActivity.this);
             practiceSourceTV = inputView.getInputSrcView();
             practiceSourceTV.setText(line);
             practiceInputET = inputView.getInputEditText();
@@ -119,7 +110,7 @@ public class PracticeActivity extends Activity {
 
     private void initContent() {
 
-        dbHelper = DictionaryDBHelper.getInstance(PracticeActivity.this);
+        dbHelper = DictionaryDBHelper.getInstance(BaseInputActivity.this);
 //        List<String> words = dbHelper.querySingleLevel1();
 //        StringBuilder builder = new StringBuilder();
 //        for (String s : words) {
@@ -129,7 +120,7 @@ public class PracticeActivity extends Activity {
         String data = dbHelper.queryArticle(1);
 
         if (practiceSourceTV == null) {
-            LinearLayout inputView = (LinearLayout) View.inflate(PracticeActivity.this, R.layout.input_view_item, null);
+            LinearLayout inputView = (LinearLayout) View.inflate(BaseInputActivity.this, R.layout.input_view_item, null);
             practiceSourceTV = (TextView) inputView.findViewById(R.id.tv_practice_src);
         }
 

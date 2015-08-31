@@ -3,6 +3,9 @@ package com.coderpage.wubinput.db;
 import android.database.Cursor;
 import android.test.AndroidTestCase;
 
+import com.coderpage.wubinput.model.Wubi;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,6 +48,109 @@ public class DictionaryDBHelperTest extends AndroidTestCase {
     public void testQueryArticle() throws Exception {
         String article = helper.queryArticle(1);
         assertNotNull(article);
+    }
+
+    public void testQueryCode() throws Exception {
+        List<String> codes = helper.queryCode("我", Wubi.TYPE_86);
+        assertEquals(3, codes.size());
+        assertEquals("q", codes.get(0));
+        assertEquals("trn", codes.get(1));
+        assertEquals("trnt", codes.get(2));
+
+        codes = helper.queryCode("我", Wubi.TYPE_98);
+        assertEquals(4, codes.size());
+        assertEquals("q", codes.get(0));
+        assertEquals("tray", codes.get(1));
+        assertEquals("trn", codes.get(2));
+        assertEquals("trny", codes.get(3));
+    }
+
+    public void testQuerySingleLevel2() {
+        List<String> singles = new ArrayList<>(100);
+        singles = helper.querySingleLevel2(100);
+        assertEquals(100, singles.size());
+
+        StringBuilder builder = new StringBuilder();
+        for (String s : singles) {
+            builder.append(s);
+        }
+        String single2tmp = builder.toString();
+
+        singles = helper.querySingleLevel2(100);
+        assertEquals(100, singles.size());
+
+        builder = new StringBuilder();
+        for (String s : singles) {
+            builder.append(s);
+        }
+
+        assertTrue(!single2tmp.equals(builder.toString()));
+    }
+
+    public void testQuerySingleLevel3() {
+        List<String> singles = new ArrayList<>(100);
+        singles = helper.querySingleLevel3(100);
+        assertEquals(100, singles.size());
+
+        StringBuilder builder = new StringBuilder();
+        for (String s : singles) {
+            builder.append(s);
+        }
+        String single2tmp = builder.toString();
+
+        singles = helper.querySingleLevel3(100);
+        assertEquals(100, singles.size());
+
+        builder = new StringBuilder();
+        for (String s : singles) {
+            builder.append(s);
+        }
+
+        assertTrue(!single2tmp.equals(builder.toString()));
+    }
+
+    public void testQuerySingles() {
+        List<String> singles = new ArrayList<>(100);
+        singles = helper.querySingles(100);
+        assertEquals(100, singles.size());
+
+        StringBuilder builder = new StringBuilder();
+        for (String s : singles) {
+            builder.append(s);
+        }
+        String single2tmp = builder.toString();
+
+        singles = helper.querySingles(100);
+        assertEquals(100, singles.size());
+
+        builder = new StringBuilder();
+        for (String s : singles) {
+            builder.append(s);
+        }
+
+        assertTrue(!single2tmp.equals(builder.toString()));
+    }
+
+    public void testQueryPhrase() {
+        List<String> singles = new ArrayList<>(100);
+        singles = helper.queryPhrase(100);
+        assertEquals(100, singles.size());
+
+        StringBuilder builder = new StringBuilder();
+        for (String s : singles) {
+            builder.append(s);
+        }
+        String single2tmp = builder.toString();
+
+        singles = helper.queryPhrase(100);
+        assertEquals(100, singles.size());
+
+        builder = new StringBuilder();
+        for (String s : singles) {
+            builder.append(s);
+        }
+
+        assertTrue(!single2tmp.equals(builder.toString()));
     }
 
 }

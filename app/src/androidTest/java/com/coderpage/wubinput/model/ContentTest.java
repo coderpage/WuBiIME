@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.coderpage.wubinput.db.DictionaryDBHelper;
 import com.coderpage.wubinput.tools.Utils;
-import com.coderpage.wubinput.view.activity.PracticeActivity;
+import com.coderpage.wubinput.view.activity.BaseInputActivity;
 
 import java.util.List;
 
@@ -15,12 +15,12 @@ import java.util.List;
  * @author abner-l
  * @since 2015-08-30
  */
-public class ContentTest extends ActivityInstrumentationTestCase2<PracticeActivity> {
+public class ContentTest extends ActivityInstrumentationTestCase2<BaseInputActivity> {
 
     Activity activity;
 
     public ContentTest() {
-        super(PracticeActivity.class);
+        super(BaseInputActivity.class);
     }
 
     @Override

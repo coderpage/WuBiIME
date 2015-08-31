@@ -50,7 +50,7 @@
         </activity>
 
         <activity
-            android:name=".view.activity.PracticeActivity"
+            android:name=".view.activity.BaseInputActivity"
             android:label="@string/title_activity_practice">
 
             <intent-filter>

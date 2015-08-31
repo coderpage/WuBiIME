@@ -38,7 +38,7 @@ public class MainActivity extends Activity {
     }
 
     public void practice(View view) {
-        Intent intent = new Intent(MainActivity.this, PracticeActivity.class);
+        Intent intent = new Intent(MainActivity.this, BaseInputActivity.class);
         startActivity(intent);
     }
 
