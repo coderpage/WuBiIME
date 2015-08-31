@@ -31,18 +31,41 @@ public class ViewUtilTest extends ActivityInstrumentationTestCase2<PracticeActiv
     }
 
     public void testMeasureTextWidth() {
-        TextView view = (TextView) activity.findViewById(R.id.tv_practice_src);
+//        TextView view = (TextView) activity.findViewById(R.id.input_view_container).findViewById(R.id.tv_practice_src);
+        TextView view = new TextView(activity);
+        view.setTextSize(20);
 
         float size = ViewUtil.measureTextWidth(view, "我");
         assertTrue(size > 0);
 
-        size = ViewUtil.measureTextWidth(view, ",");
+        float size1 = ViewUtil.measureTextWidth(view, ",");
         assertTrue(size > 0);
 
-        size = ViewUtil.measureTextWidth(view, "，");
+        float size2 = ViewUtil.measureTextWidth(view, "，");
         assertTrue(size > 0);
 
-        size = ViewUtil.measureTextWidth(view, "1");
+        float size3 = ViewUtil.measureTextWidth(view, "1");
+        assertTrue(size > 0);
+
+        float size4 = ViewUtil.measureTextWidth(view, "、");
+        assertTrue(size > 0);
+
+        float size5 = ViewUtil.measureTextWidth(view, " ");
+        assertTrue(size > 0);
+
+        float size6 = ViewUtil.measureTextWidth(view, "《");
+        assertTrue(size > 0);
+
+        float size7 = ViewUtil.measureTextWidth(view, "：");
+        assertTrue(size > 0);
+
+        float size8 = ViewUtil.measureTextWidth(view, "。");
+        assertTrue(size > 0);
+
+        float size9 = ViewUtil.measureTextWidth(view, "…");
+        assertTrue(size > 0);
+
+        float size10 = ViewUtil.measureTextWidth(view, "……");
         assertTrue(size > 0);
     }
 

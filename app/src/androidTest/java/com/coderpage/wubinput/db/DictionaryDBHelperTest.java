@@ -42,4 +42,9 @@ public class DictionaryDBHelperTest extends AndroidTestCase {
         cursor.close();
     }
 
+    public void testQueryArticle() throws Exception {
+        String article = helper.queryArticle(1);
+        assertNotNull(article);
+    }
+
 }

@@ -21,20 +21,21 @@ public class Content {
     public Content(String content, TextView view) {
         Global global = Global.getInstance(view.getContext());
 
+        float oneHanZiWidth = ViewUtil.measureTextWidth(view, String.valueOf('我'));
         float lineMaxLen = global.windowWidth - Utils.dip2px(view.getContext(),20);
         float totalLen = 0;
         int sPos = 0;
         String line;
 
         for (int i = 0; i < content.length(); i++) {
-
-            totalLen += ViewUtil.measureTextWidth(view, String.valueOf(content.charAt(i)));
+//          totalLen += ViewUtil.measureTextWidth(view, String.valueOf(content.charAt(i)));
+            totalLen += oneHanZiWidth;
 
             if (totalLen >= lineMaxLen) {
                 line = content.substring(sPos, i);
                 sPos = i;
                 lines.add(line);
-                totalLen = 0;
+                totalLen = oneHanZiWidth;
             }
         }
 

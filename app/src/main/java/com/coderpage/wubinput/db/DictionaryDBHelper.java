@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.coderpage.wubinput.define.SQLDefine.TableArticle;
 import static com.coderpage.wubinput.define.SQLDefine.TableDictionary;
 import static com.coderpage.wubinput.define.SQLDefine.TableSingleCharLevel1;
 
@@ -184,11 +185,26 @@ public class DictionaryDBHelper {
     public List<String> querySingleLevel1() {
         ArrayList<String> singles = new ArrayList<>();
         Cursor cursor = db.query(TableSingleCharLevel1.TABLE_NAME, null, null, null, null, null, null);
-        while (cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             String data = cursor.getString(TableSingleCharLevel1.COLUMN_VALUE_INDEX);
             singles.add(data);
         }
         cursor.close();
         return singles;
+    }
+
+    public String queryArticle(int num) {
+        String article = null;
+        String[] columns = {TableArticle.COLUMN_VALUE};
+        String selection = TableArticle.COLUMN_ID + "=?";
+        String[] args = {String.valueOf(num)};
+        Cursor cursor = db.query(TableArticle.TABLE_NAME, columns, selection, args, null, null, null);
+
+        int index = cursor.getColumnIndex(TableArticle.COLUMN_VALUE);
+        while (cursor.moveToNext()){
+            article = cursor.getString(index);
+        }
+
+        return article;
     }
 }

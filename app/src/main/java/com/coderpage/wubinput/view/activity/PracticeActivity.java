@@ -2,7 +2,6 @@ package com.coderpage.wubinput.view.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,7 +13,6 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -51,7 +49,6 @@ public class PracticeActivity extends Activity {
     private int maxPos = 0;
     private int delTimes = 0;
 
-    //    InputEditorActionListener editorActionListener = new InputEditorActionListener(this);
     TextWatcher watcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -77,19 +74,6 @@ public class PracticeActivity extends Activity {
             }
         }
     };
-
-//    private View.OnKeyListener onKeyListener = new View.OnKeyListener() {
-//        @Override
-//        public boolean onKey(View v, int keyCode, KeyEvent event) {
-//
-//            if (keyCode == KeyEvent.KEYCODE_DEL) {
-//                onDelText();
-//                return true;
-//            }
-//
-//            return false;
-//        }
-//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +109,6 @@ public class PracticeActivity extends Activity {
             practiceSourceTV = currentInputView.getInputSrcView();
             practiceInputET = currentInputView.getInputEditText();
             practiceInputET.addTextChangedListener(watcher);
-//            practiceInputET.setOnEditorActionListener(editorActionListener);
             practiceInputET.setEnabled(true);
             practiceInputET.requestFocus();
         }
@@ -137,12 +120,13 @@ public class PracticeActivity extends Activity {
     private void initContent() {
 
         dbHelper = DictionaryDBHelper.getInstance(PracticeActivity.this);
-        List<String> words = dbHelper.querySingleLevel1();
-        StringBuilder builder = new StringBuilder();
-        for (String s : words) {
-            builder.append(s);
-        }
-        String data = builder.toString();
+//        List<String> words = dbHelper.querySingleLevel1();
+//        StringBuilder builder = new StringBuilder();
+//        for (String s : words) {
+//            builder.append(s);
+//        }
+//        String data = builder.toString();
+        String data = dbHelper.queryArticle(1);
 
         if (practiceSourceTV == null) {
             LinearLayout inputView = (LinearLayout) View.inflate(PracticeActivity.this, R.layout.input_view_item, null);
@@ -226,16 +210,26 @@ public class PracticeActivity extends Activity {
         }
     }
 
+    /**
+     * 判断是否要跳转到上一行，根据是当用户在当前输入框内容为空的时候，有再次触发删除操作
+     *
+     * @return 用户想要跳转到上一行，返回 true，反之，返回 false
+     */
     private boolean shouldPreLine() {
         return delTimes >= 2;
     }
 
+    /**
+     * 当还有下一个输入行时，跳转到下一行
+     *
+     * @param overData 当前输入字符数超出部分，当有下一行时，会添加到下一行输入框
+     */
     private void goNextLine(String overData) {
         if (haveNextLine()) {
-            practiceInputET.clearFocus();
-            practiceInputET.setEnabled(false);
-            practiceInputET.removeTextChangedListener(watcher);
+            // 缓存当前输入框对象，这么做的原因是：若立即设置当前输入框为不可用时，软键盘会自动隐藏
+            InputEditText tmp = practiceInputET;
 
+            // 获取下一个输入框作为当前输入框对象
             currentInputView = inputViews.get(++currentPos);
             practiceSourceTV = currentInputView.getInputSrcView();
             practiceInputET = currentInputView.getInputEditText();
@@ -243,27 +237,33 @@ public class PracticeActivity extends Activity {
             practiceInputET.setEnabled(true);
             practiceInputET.requestFocus();
 
+            // 设置上一个输入框对象不可用
+            tmp.clearFocus();
+            tmp.setEnabled(false);
+            tmp.removeTextChangedListener(watcher);
+
             if (!TextUtils.isEmpty(overData)) {
+                // 将超出的字符添加到当前输入框
                 practiceInputET.setText(overData);
                 practiceInputET.setSelection(overData.length());
                 onCurChanged(overData);
             }
-            showSofeInputKeyBoard();
 
         } else {
+            // 已经是最后一行了
             if (practiceInputET.watcherSize == 0) {
                 practiceInputET.addTextChangedListener(watcher);
             }
             practiceInputET.setSelection(practiceInputET.getText().length());
-            // back result
         }
     }
 
+    /**
+     * 如果有上一行，跳转到上一行
+     */
     private void goPreLine() {
         if (havePreLine()) {
-            practiceInputET.setEnabled(false);
-            practiceInputET.clearFocus();
-            practiceInputET.removeTextChangedListener(watcher);
+            InputEditText tmp = practiceInputET;
 
             currentInputView = inputViews.get(--currentPos);
             practiceSourceTV = currentInputView.getInputSrcView();
@@ -272,29 +272,42 @@ public class PracticeActivity extends Activity {
             practiceInputET.setEnabled(true);
             practiceInputET.requestFocus();
             practiceInputET.setSelection(practiceInputET.getText().length());
-            showSofeInputKeyBoard();
             resetDelTimes();
+
+            tmp.setEnabled(false);
+            tmp.clearFocus();
+            tmp.removeTextChangedListener(watcher);
+
         } else {
             resetDelTimes();
         }
     }
 
+    /**
+     * 是否还有上一行
+     *
+     * @return 若有上一行，返回 true，反之，返回 false
+     */
     private boolean havePreLine() {
         return currentPos > 0;
     }
 
+    /**
+     * 是否还有下一行
+     *
+     * @return 若有下一行，返回 true，反之，返回 false
+     */
     private boolean haveNextLine() {
         return currentPos < maxPos;
     }
 
+    /**
+     * 重置删除事件次数
+     */
     private void resetDelTimes() {
         delTimes = 0;
     }
 
-    private void showSofeInputKeyBoard() {
-        InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        manager.showSoftInput(practiceInputET, InputMethodManager.SHOW_FORCED);
-    }
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
@@ -305,25 +318,4 @@ public class PracticeActivity extends Activity {
         return super.dispatchKeyEvent(event);
     }
 
-//    public static class InputEditorActionListener implements TextView.OnEditorActionListener {
-//
-//        PracticeActivity parent;
-//
-//        public InputEditorActionListener(PracticeActivity activity) {
-//            this.parent = activity;
-//        }
-//
-//        @Override
-//        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//
-//            if (event.getKeyCode() == KeyEvent.KEYCODE_DEL) {
-//
-//                parent.onDelText();
-//                Log.d("onEditorAction", KeyEvent.KEYCODE_DEL + event.toString());
-//                return true;
-//            }
-//            Log.d("onEditorAction", event.toString());
-//            return false;
-//        }
-//    }
 }

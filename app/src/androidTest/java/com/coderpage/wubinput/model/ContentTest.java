@@ -5,8 +5,8 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.coderpage.wubinput.R;
 import com.coderpage.wubinput.db.DictionaryDBHelper;
+import com.coderpage.wubinput.tools.Utils;
 import com.coderpage.wubinput.view.activity.PracticeActivity;
 
 import java.util.List;
@@ -35,7 +35,9 @@ public class ContentTest extends ActivityInstrumentationTestCase2<PracticeActivi
     }
 
     public void testConstructor() {
-        TextView view = (TextView) activity.findViewById(R.id.tv_practice_src);
+//        TextView view = (TextView) activity.findViewById(R.id.tv_practice_src);
+        TextView view = new TextView(activity);
+        view.setTextSize(Utils.dip2px(activity, 20));
 
         DictionaryDBHelper helper = DictionaryDBHelper.getInstance(getActivity());
         List<String> singles = helper.querySingleLevel1();
