@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
-              android:divider="#000"
-              android:showDividers="end"
-              android:dividerPadding="1dp"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
@@ -38,6 +35,8 @@
         android:clickable="true"
         android:onClick="test"
         android:text="@string/prefs_test"/>
+
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="30dp"
@@ -46,7 +45,29 @@
         android:layout_marginTop="40dp"
         android:gravity="center_vertical"
         android:clickable="true"
-        android:onClick="practice"
-        android:text="@string/prefs_practice"/>
+        android:onClick="practiceSingle"
+        android:text="单字练习"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textSize="25dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center_vertical"
+        android:clickable="true"
+        android:onClick="practicePhrase"
+        android:text="词组练习"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textSize="25dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center_vertical"
+        android:clickable="true"
+        android:onClick="practiceArticle"
+        android:text="文章练习"/>
 
 </LinearLayout>

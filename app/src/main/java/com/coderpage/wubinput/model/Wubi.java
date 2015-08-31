@@ -43,4 +43,28 @@ public abstract class Wubi {
         public static final int TEST_ARTICLE = 0x15;
 
     }
+
+    public static abstract class SingleLevelType {
+
+        /**
+         * 一级编码
+         */
+        public static final int LEVEL_1 = 0x16;
+
+        /**
+         * 二级编码
+         */
+        public static final int LEVEL_2 = 0x17;
+
+        /**
+         * 三级级编码
+         */
+        public static final int LEVEL_3 = 0x18;
+
+        /**
+         * 随机汉字
+         */
+        public static final int RANDOW = 0x19;
+    }
+
 }

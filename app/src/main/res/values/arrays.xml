@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="single_input_selects">
+        <item>简单</item>
+        <item>中等</item>
+        <item>较难</item>
+        <item>随机汉字</item>
+    </array>
+
+    <array name="article_input_selects">
+        <item>第 01 章</item>
+        <item>第 02 章</item>
+        <item>第 03 章</item>
+        <item>第 04 章</item>
+        <item>第 05 章</item>
+        <item>第 06 章</item>
+        <item>第 07 章</item>
+        <item>第 08 章</item>
+        <item>第 09 章</item>
+        <item>第 10 章</item>
+        <item>第 11 章</item>
+        <item>第 12 章</item>
+        <item>第 13 章</item>
+        <item>第 14 章</item>
+        <item>第 15 章</item>
+        <item>第 16 章</item>
+        <item>第 17 章</item>
+        <item>第 18 章</item>
+        <item>第 19 章</item>
+        <item>第 20 章</item>
+    </array>
+
+</resources>

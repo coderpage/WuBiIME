@@ -19,11 +19,26 @@ import java.util.List;
  */
 public class PracticeInputActivity extends BaseInputActivity {
 
+//    /* 通过 bundle 对象传递过来的 bundle 名称 */
+//    public static final String BUNDLE_NAME = "metadata";
+    /* bundle 数据中模式的 key 名称，模式有：单字练习、词组练习、文章练习 */
+    public static final String BUNDLE_KEY_MODE = "mode";
+    /* bundle 数据中用户选择练习的篇数，比如：第几篇文章，选择单字练习的难易程度 */
+    public static final String BUNDLE_KEY_SELECT = "select";
+
+    private int mode;
+    private int select;
+
     private TextView remindTV; // 五笔编码提示框
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_practice);
+
+        Bundle bundle = getIntent().getExtras();
+        mode = bundle.getInt(BUNDLE_KEY_MODE);
+        select = bundle.getInt(BUNDLE_KEY_SELECT);
+
         super.onCreate(savedInstanceState);
 
         initView();
@@ -48,7 +63,21 @@ public class PracticeInputActivity extends BaseInputActivity {
     @Override
     protected void initContent() {
         dbHelper = DictionaryDBHelper.getInstance(PracticeInputActivity.this);
-        String data = dbHelper.queryArticle(1);
+        String data = null;
+        switch (mode) {
+            case Wubi.TypingMode.PRACTICE_SINGLE_WORD:
+                data = getSingleWords();
+                break;
+            case Wubi.TypingMode.PRACTICE_PHRASH:
+                data = getPhrase();
+                break;
+            case Wubi.TypingMode.PRACTICE_ARTICLE:
+                data = dbHelper.queryArticle(select);
+                break;
+            default:
+                throw new IllegalStateException("不识别此模式：" + mode);
+        }
+
 
         if (inputSourceTV == null) {
             inputSourceTV = (TextView) View.inflate(PracticeInputActivity.this, R.layout.input_src_view, null);
@@ -56,6 +85,53 @@ public class PracticeInputActivity extends BaseInputActivity {
 
         Content content = new Content(data, inputSourceTV);
         this.lines = content.getLines();
+    }
+
+    private String getSingleWords() {
+        List<String> words;
+        switch (select) {
+            case Wubi.SingleLevelType.LEVEL_1:
+                words = dbHelper.querySingleLevel1();
+                return generateSingleData(words);
+
+            case Wubi.SingleLevelType.LEVEL_2:
+                words = dbHelper.querySingleLevel2(100);
+                return generateSingleData(words);
+
+            case Wubi.SingleLevelType.LEVEL_3:
+                words = dbHelper.querySingleLevel3(100);
+                return generateSingleData(words);
+
+            case Wubi.SingleLevelType.RANDOW:
+                words = dbHelper.querySingles(100);
+                return generateSingleData(words);
+
+            default:
+                throw new IllegalStateException("不识别此类别：" + select);
+        }
+    }
+
+    private String generateSingleData(List<String> words) {
+        StringBuilder builder = new StringBuilder();
+        for (String word : words) {
+            builder.append(word);
+        }
+
+        return builder.toString();
+    }
+
+    private String getPhrase() {
+        List<String> phrases = dbHelper.queryPhrase(100);
+        return generatePhraseData(phrases);
+    }
+
+    private String generatePhraseData(List<String> phrases) {
+        StringBuilder builder = new StringBuilder();
+        for (String phrase : phrases) {
+            builder.append(phrase);
+        }
+
+        return builder.toString();
     }
 
     @Override
@@ -106,6 +182,12 @@ public class PracticeInputActivity extends BaseInputActivity {
 
     }
 
+    /**
+     * 查询字符的五笔编码
+     *
+     * @param word 需要查询的字符
+     * @return 字符的五笔编码
+     */
     private String getCode(String word) {
         StringBuilder builder = new StringBuilder();
         builder.append(word).append('(');
