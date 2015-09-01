@@ -9,7 +9,7 @@
         android:layout_height="40dp"
         android:textSize="25dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:gravity="center_vertical"
         android:clickable="true"
         android:onClick="enableIME"
@@ -20,7 +20,7 @@
         android:layout_height="30dp"
         android:textSize="25dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:gravity="center_vertical"
         android:clickable="true"
         android:onClick="pickIME"
@@ -30,10 +30,10 @@
         android:layout_height="30dp"
         android:textSize="25dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:gravity="center_vertical"
         android:clickable="true"
-        android:onClick="test"
+        android:onClick="testTmp"
         android:text="@string/prefs_test"/>
 
 
@@ -53,7 +53,7 @@
         android:layout_height="30dp"
         android:textSize="25dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:gravity="center_vertical"
         android:clickable="true"
         android:onClick="practicePhrase"
@@ -64,10 +64,43 @@
         android:layout_height="30dp"
         android:textSize="25dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:gravity="center_vertical"
         android:clickable="true"
         android:onClick="practiceArticle"
         android:text="文章练习"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textSize="25dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:clickable="true"
+        android:onClick="testSingle"
+        android:text="单字测试"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textSize="25dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:clickable="true"
+        android:onClick="testPhrase"
+        android:text="词组测试"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textSize="25dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:clickable="true"
+        android:onClick="testArticle"
+        android:text="文章测试"/>
 
 </LinearLayout>

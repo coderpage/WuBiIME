@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
         imm.showInputMethodPicker();
     }
 
-    public void test(View view) {
+    public void testTmp(View view) {
         Intent intent = new Intent(MainActivity.this, TestActivity.class);
         startActivity(intent);
     }
@@ -54,6 +54,19 @@ public class MainActivity extends Activity {
     public void practiceArticle(View view) {
         SelectDialog dialog = new SelectDialog(MainActivity.this, Wubi.TypingMode.PRACTICE_ARTICLE);
         dialog.showMe();
+    }
+
+    public void testSingle(View view){
+        Intent intent = new Intent(MainActivity.this, TestInputActivity.class);
+        startActivity(intent);
+    }
+
+    public void testPhrase(View view){
+
+    }
+
+    public void testArticle(View view){
+
     }
 
     public static class SelectDialog extends AlertDialog.Builder {
