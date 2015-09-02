@@ -125,7 +125,7 @@ public abstract class BaseInputActivity extends Activity {
             data = data.substring(0, srcText.length());
         }
 
-
+        int wrongWordSize = 0;
         for (int i = 0; i < data.length(); i++) {
             ColorText text = new ColorText();
 
@@ -134,12 +134,15 @@ public abstract class BaseInputActivity extends Activity {
                 text.text = data.charAt(i);
                 texts.add(text);
                 spannableString.setSpan(new ForegroundColorSpan(Color.RED), i, i + 1, Spanned.SPAN_POINT_MARK);
+                wrongWordSize++;
+
             } else {
                 text.text = data.charAt(i);
                 texts.add(text);
             }
 
         }
+        markWrongWord(wrongWordSize);
 
         inputET.setTexts(texts);
         inputSourceTV.setText(spannableString);
@@ -155,6 +158,10 @@ public abstract class BaseInputActivity extends Activity {
             }
 
         }
+    }
+
+    protected void markWrongWord(int position) {
+
     }
 
     /**
@@ -191,28 +198,7 @@ public abstract class BaseInputActivity extends Activity {
      */
     private void goNextLine(String overData) {
         if (haveNextLine()) {
-            // 缓存当前输入框对象，这么做的原因是：若立即设置当前输入框为不可用时，软键盘会自动隐藏
-            InputEditText tmp = inputET;
-
-            // 获取下一个输入框作为当前输入框对象
-            currentInputView = inputViews.get(++currentPos);
-            inputSourceTV = currentInputView.getInputSrcView();
-            inputET = currentInputView.getInputEditText();
-            inputET.addTextChangedListener(watcher);
-            inputET.setEnabled(true);
-            inputET.requestFocus();
-
-            // 设置上一个输入框对象不可用
-            tmp.clearFocus();
-            tmp.setEnabled(false);
-            tmp.removeTextChangedListener(watcher);
-
-            if (!TextUtils.isEmpty(overData)) {
-                // 将超出的字符添加到当前输入框
-                inputET.setText(overData);
-                inputET.setSelection(overData.length());
-                onCurChanged(overData);
-            }
+            nextLine(overData);
 
         } else {
             // 已经是最后一行了
@@ -224,28 +210,65 @@ public abstract class BaseInputActivity extends Activity {
     }
 
     /**
+     * 跳转到下一行
+     *
+     * @param overData 将要写到下一行的字符串
+     */
+    protected void nextLine(String overData) {
+        // 缓存当前输入框对象，这么做的原因是：若立即设置当前输入框为不可用时，软键盘会自动隐藏
+        InputEditText tmp = inputET;
+
+        // 获取下一个输入框作为当前输入框对象
+        currentInputView = inputViews.get(++currentPos);
+        inputSourceTV = currentInputView.getInputSrcView();
+        inputET = currentInputView.getInputEditText();
+        inputET.addTextChangedListener(watcher);
+        inputET.setEnabled(true);
+        inputET.requestFocus();
+
+        // 设置上一个输入框对象不可用
+        tmp.clearFocus();
+        tmp.setEnabled(false);
+        tmp.removeTextChangedListener(watcher);
+
+        if (!TextUtils.isEmpty(overData)) {
+            // 将超出的字符添加到当前输入框
+            inputET.setText(overData);
+            inputET.setSelection(overData.length());
+            onCurChanged(overData);
+        }
+    }
+
+    /**
      * 如果有上一行，跳转到上一行
      */
     private void goPreLine() {
         if (havePreLine()) {
-            InputEditText tmp = inputET;
-
-            currentInputView = inputViews.get(--currentPos);
-            inputSourceTV = currentInputView.getInputSrcView();
-            inputET = currentInputView.getInputEditText();
-            inputET.addTextChangedListener(watcher);
-            inputET.setEnabled(true);
-            inputET.requestFocus();
-            inputET.setSelection(inputET.getText().length());
-            resetDelTimes();
-
-            tmp.setEnabled(false);
-            tmp.clearFocus();
-            tmp.removeTextChangedListener(watcher);
+            preLine();
 
         } else {
             resetDelTimes();
         }
+    }
+
+    /**
+     * 跳转到上一行
+     */
+    protected void preLine() {
+        InputEditText tmp = inputET;
+
+        currentInputView = inputViews.get(--currentPos);
+        inputSourceTV = currentInputView.getInputSrcView();
+        inputET = currentInputView.getInputEditText();
+        inputET.addTextChangedListener(watcher);
+        inputET.setEnabled(true);
+        inputET.requestFocus();
+        inputET.setSelection(inputET.getText().length());
+        resetDelTimes();
+
+        tmp.setEnabled(false);
+        tmp.clearFocus();
+        tmp.removeTextChangedListener(watcher);
     }
 
     /**

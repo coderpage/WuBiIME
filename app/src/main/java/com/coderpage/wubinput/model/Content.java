@@ -16,6 +16,7 @@ import java.util.List;
 public class Content {
 
     private final List<String> lines = new ArrayList<>();
+    private int wrongWordSize;
 
 
     public Content(String content, TextView view) {
@@ -41,6 +42,10 @@ public class Content {
 
         line = content.substring(sPos);
         lines.add(line);
+    }
+
+    public void addWrongWord(){
+
     }
 
     public List<String> getLines() {
