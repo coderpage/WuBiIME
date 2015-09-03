@@ -1,27 +1,72 @@
 package com.coderpage.wubinput.view.activity;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.RelativeLayout;
 
 import com.coderpage.wubinput.R;
 import com.coderpage.wubinput.TestActivity;
 import com.coderpage.wubinput.model.Wubi;
+import com.coderpage.wubinput.view.adapter.MViewPagerAdapter;
+import com.coderpage.wubinput.view.widget.SelectDialog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author abner
  * @since 2015-08-29
  */
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity implements ViewPager.OnPageChangeListener {
+
+    private ViewPager mainViewPager;
+    private FragmentManager fragmentManager;
+    private MViewPagerAdapter mViewPagerAdapter;
+    private List<Fragment> fragmentList = new ArrayList<>(4);
+
+    private RelativeLayout footerHomeContainer;
+    private RelativeLayout footerPracticeContainer;
+    private RelativeLayout footerTestContainer;
+    private RelativeLayout footerSettingContainer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        initView();
+    }
+
+    private void initView() {
+        mainViewPager = (ViewPager) findViewById(R.id.main_viewpager);
+
+        Fragment homeFragment = new HomeFragment();
+        Fragment practiceFragment = new PracticeFragment();
+        Fragment testFragment = new TestFragment();
+        Fragment settingFragment = new SettingFragment();
+        fragmentList.add(homeFragment);
+        fragmentList.add(practiceFragment);
+        fragmentList.add(testFragment);
+        fragmentList.add(settingFragment);
+
+        fragmentManager = getSupportFragmentManager();
+        mViewPagerAdapter = new MViewPagerAdapter(fragmentManager, fragmentList);
+        mainViewPager.setAdapter(mViewPagerAdapter);
+        mainViewPager.setOnPageChangeListener(this);
+
+        footerHomeContainer = (RelativeLayout) findViewById(R.id.footer_home_container);
+        footerPracticeContainer = (RelativeLayout) findViewById(R.id.footer_practice_container);
+        footerTestContainer = (RelativeLayout) findViewById(R.id.footer_test_container);
+        footerSettingContainer = (RelativeLayout) findViewById(R.id.footer_setting_container);
+
+        footerHomeContainer.setBackgroundColor(getResources().getColor(R.color.app_theme_color));
     }
 
     public void enableIME(View view) {
@@ -56,148 +101,82 @@ public class MainActivity extends Activity {
         dialog.showMe();
     }
 
-    public void testSingle(View view){
+    public void testSingle(View view) {
         Intent intent = new Intent(MainActivity.this, TestInputActivity.class);
         startActivity(intent);
     }
 
-    public void testPhrase(View view){
+    public void testPhrase(View view) {
 
     }
 
-    public void testArticle(View view){
+    public void testArticle(View view) {
 
     }
 
-    public static class SelectDialog extends AlertDialog.Builder {
-        private AlertDialog dialog;
-        private int mode;
-        private Context context;
+    //=====================================On footer item click=====================================
 
-        public SelectDialog(Context context, int mode) {
-            super(context);
-            this.mode = mode;
-            this.context = context;
-            initSettings();
-        }
+    public void footerHomeClick(View view) {
+        mainViewPager.setCurrentItem(0);
+    }
 
-        private void initSettings() {
+    public void footerPracticeClick(View view) {
+        mainViewPager.setCurrentItem(1);
+    }
 
-            int itemsSrcID;
-            if (mode == Wubi.TypingMode.PRACTICE_SINGLE_WORD) {
-                itemsSrcID = R.array.single_input_selects;
-            } else {
-                itemsSrcID = R.array.article_input_selects;
-            }
+    public void footerTestClick(View view) {
+        mainViewPager.setCurrentItem(2);
+    }
 
-            setItems(itemsSrcID, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (mode == Wubi.TypingMode.PRACTICE_SINGLE_WORD) {
-                        switch (which) {
-                            case 0:
-                                startActivityPracticeSingle(Wubi.SingleLevelType.LEVEL_1);
-                                break;
-                            case 1:
-                                startActivityPracticeSingle(Wubi.SingleLevelType.LEVEL_2);
-                                break;
-                            case 2:
-                                startActivityPracticeSingle(Wubi.SingleLevelType.LEVEL_3);
-                                break;
-                            default:
-                                startActivityPracticeSingle(Wubi.SingleLevelType.RANDOW);
-                                break;
+    public void footerSettingClick(View view) {
+        mainViewPager.setCurrentItem(3);
+    }
 
-                        }
-                    } else {
-                        switch (which) {
-                            case 0:
-                                startActivityPracticeArticle(1);
-                                break;
-                            case 1:
-                                startActivityPracticeArticle(2);
-                                break;
-                            case 2:
-                                startActivityPracticeArticle(3);
-                                break;
-                            case 3:
-                                startActivityPracticeArticle(4);
-                                break;
-                            case 4:
-                                startActivityPracticeArticle(5);
-                                break;
-                            case 5:
-                                startActivityPracticeArticle(6);
-                                break;
-                            case 6:
-                                startActivityPracticeArticle(7);
-                                break;
-                            case 7:
-                                startActivityPracticeArticle(8);
-                                break;
-                            case 8:
-                                startActivityPracticeArticle(9);
-                                break;
-                            case 9:
-                                startActivityPracticeArticle(10);
-                                break;
-                            case 10:
-                                startActivityPracticeArticle(11);
-                                break;
-                            case 11:
-                                startActivityPracticeArticle(12);
-                                break;
-                            case 12:
-                                startActivityPracticeArticle(13);
-                                break;
-                            case 13:
-                                startActivityPracticeArticle(14);
-                                break;
-                            case 14:
-                                startActivityPracticeArticle(15);
-                                break;
-                            case 15:
-                                startActivityPracticeArticle(16);
-                                break;
-                            case 16:
-                                startActivityPracticeArticle(17);
-                                break;
-                            case 17:
-                                startActivityPracticeArticle(18);
-                                break;
-                            case 18:
-                                startActivityPracticeArticle(19);
-                                break;
-                            default:
-                                startActivityPracticeArticle(20);
-                                break;
-
-                        }
-                    }
-                }
-            });
-
-            this.dialog = create();
-        }
-
-        private void startActivityPracticeSingle(int select) {
-            Intent intent = new Intent(context, PracticeInputActivity.class);
-            intent.putExtra(PracticeInputActivity.BUNDLE_KEY_MODE, Wubi.TypingMode.PRACTICE_SINGLE_WORD);
-            intent.putExtra(PracticeInputActivity.BUNDLE_KEY_SELECT, select);
-            context.startActivity(intent);
-        }
-
-        private void startActivityPracticeArticle(int select) {
-            Intent intent = new Intent(context, PracticeInputActivity.class);
-            intent.putExtra(PracticeInputActivity.BUNDLE_KEY_MODE, Wubi.TypingMode.PRACTICE_ARTICLE);
-            intent.putExtra(PracticeInputActivity.BUNDLE_KEY_SELECT, select);
-            context.startActivity(intent);
-        }
-
-        public void showMe() {
-            dialog.show();
-        }
+    //=====================================OnViewPagerChange========================================
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
     }
 
+    @Override
+    public void onPageSelected(int position) {
+        updateFooterItemBackgroundColor(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+    //==============================================================================================
+
+    private void updateFooterItemBackgroundColor(int position){
+        switch (position){
+            case 0:
+                footerHomeContainer.setBackgroundColor(getResources().getColor(R.color.app_theme_color));
+                footerPracticeContainer.setBackgroundColor(getResources().getColor(R.color.transparent));
+                footerTestContainer.setBackgroundColor(getResources().getColor(R.color.transparent));
+                footerSettingContainer.setBackgroundColor(getResources().getColor(R.color.transparent));
+                break;
+            case 1:
+                footerHomeContainer.setBackgroundColor(getResources().getColor(R.color.transparent));
+                footerPracticeContainer.setBackgroundColor(getResources().getColor(R.color.app_theme_color));
+                footerTestContainer.setBackgroundColor(getResources().getColor(R.color.transparent));
+                footerSettingContainer.setBackgroundColor(getResources().getColor(R.color.transparent));                break;
+            case 2:
+                footerHomeContainer.setBackgroundColor(getResources().getColor(R.color.transparent));
+                footerPracticeContainer.setBackgroundColor(getResources().getColor(R.color.transparent));
+                footerTestContainer.setBackgroundColor(getResources().getColor(R.color.app_theme_color));
+                footerSettingContainer.setBackgroundColor(getResources().getColor(R.color.transparent));
+                break;
+            case 3:
+                footerHomeContainer.setBackgroundColor(getResources().getColor(R.color.transparent));
+                footerPracticeContainer.setBackgroundColor(getResources().getColor(R.color.transparent));
+                footerTestContainer.setBackgroundColor(getResources().getColor(R.color.transparent));
+                footerSettingContainer.setBackgroundColor(getResources().getColor(R.color.app_theme_color));
+                break;
+            default:
+                break;
+        }
+    }
 }

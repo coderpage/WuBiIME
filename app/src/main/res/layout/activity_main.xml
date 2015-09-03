@@ -1,106 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <TextView
+    <!--<LinearLayout-->
+    <!--android:id="@+id/main_container"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:orientation="vertical">-->
+
+
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="40dp"-->
+    <!--android:layout_marginLeft="40dp"-->
+    <!--android:layout_marginTop="20dp"-->
+    <!--android:clickable="true"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:onClick="enableIME"-->
+    <!--android:text="@string/prefs_enable_ime"-->
+    <!--android:textSize="25dp"/>-->
+
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="30dp"-->
+    <!--android:layout_marginLeft="40dp"-->
+    <!--android:layout_marginTop="20dp"-->
+    <!--android:clickable="true"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:onClick="pickIME"-->
+    <!--android:text="@string/prefs_pick_ime"-->
+    <!--android:textSize="25dp"/>-->
+
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="30dp"-->
+    <!--android:layout_marginLeft="40dp"-->
+    <!--android:layout_marginTop="20dp"-->
+    <!--android:clickable="true"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:onClick="testTmp"-->
+    <!--android:text="@string/prefs_test"-->
+    <!--android:textSize="25dp"/>-->
+
+
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="30dp"-->
+    <!--android:layout_marginLeft="40dp"-->
+    <!--android:layout_marginTop="40dp"-->
+    <!--android:clickable="true"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:onClick="practiceSingle"-->
+    <!--android:text="单字练习"-->
+    <!--android:textSize="25dp"/>-->
+
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="30dp"-->
+    <!--android:layout_marginLeft="40dp"-->
+    <!--android:layout_marginTop="20dp"-->
+    <!--android:clickable="true"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:onClick="practicePhrase"-->
+    <!--android:text="词组练习"-->
+    <!--android:textSize="25dp"/>-->
+
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="30dp"-->
+    <!--android:layout_marginLeft="40dp"-->
+    <!--android:layout_marginTop="20dp"-->
+    <!--android:clickable="true"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:onClick="practiceArticle"-->
+    <!--android:text="文章练习"-->
+    <!--android:textSize="25dp"/>-->
+
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="30dp"-->
+    <!--android:layout_marginLeft="40dp"-->
+    <!--android:layout_marginTop="20dp"-->
+    <!--android:clickable="true"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:onClick="testSingle"-->
+    <!--android:text="单字测试"-->
+    <!--android:textSize="25dp"/>-->
+
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="30dp"-->
+    <!--android:layout_marginLeft="40dp"-->
+    <!--android:layout_marginTop="20dp"-->
+    <!--android:clickable="true"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:onClick="testPhrase"-->
+    <!--android:text="词组测试"-->
+    <!--android:textSize="25dp"/>-->
+
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="30dp"-->
+    <!--android:layout_marginLeft="40dp"-->
+    <!--android:layout_marginTop="20dp"-->
+    <!--android:clickable="true"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:onClick="testArticle"-->
+    <!--android:text="文章测试"-->
+    <!--android:textSize="25dp"/>-->
+    <!--</LinearLayout>-->
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/main_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:textSize="25dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="20dp"
-        android:gravity="center_vertical"
-        android:clickable="true"
-        android:onClick="enableIME"
-        android:text="@string/prefs_enable_ime"/>
+        android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:textSize="25dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="20dp"
-        android:gravity="center_vertical"
-        android:clickable="true"
-        android:onClick="pickIME"
-        android:text="@string/prefs_pick_ime"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:textSize="25dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="20dp"
-        android:gravity="center_vertical"
-        android:clickable="true"
-        android:onClick="testTmp"
-        android:text="@string/prefs_test"/>
+    </android.support.v4.view.ViewPager>
 
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:textSize="25dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="40dp"
-        android:gravity="center_vertical"
-        android:clickable="true"
-        android:onClick="practiceSingle"
-        android:text="单字练习"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:textSize="25dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="20dp"
-        android:gravity="center_vertical"
-        android:clickable="true"
-        android:onClick="practicePhrase"
-        android:text="词组练习"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:textSize="25dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="20dp"
-        android:gravity="center_vertical"
-        android:clickable="true"
-        android:onClick="practiceArticle"
-        android:text="文章练习"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:textSize="25dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="20dp"
-        android:gravity="center_vertical"
-        android:clickable="true"
-        android:onClick="testSingle"
-        android:text="单字测试"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:textSize="25dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="20dp"
-        android:gravity="center_vertical"
-        android:clickable="true"
-        android:onClick="testPhrase"
-        android:text="词组测试"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:textSize="25dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="20dp"
-        android:gravity="center_vertical"
-        android:clickable="true"
-        android:onClick="testArticle"
-        android:text="文章测试"/>
-
-</LinearLayout>
+    <include layout="@layout/footer"/>
+</RelativeLayout>

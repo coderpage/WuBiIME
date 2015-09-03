@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/footer_height"
+              android:background="@drawable/footer"
+              android:layout_alignParentBottom="true"
+              android:orientation="horizontal">
+
+    <RelativeLayout
+        android:id="@+id/footer_home_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/footer_home_iv"
+            android:layout_width="@dimen/footer_image_size"
+            android:layout_height="@dimen/footer_image_size"
+            android:layout_centerHorizontal="true"
+            android:clickable="true"
+            android:onClick="footerHomeClick"
+            android:background="@drawable/footer_home"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/footer_tv_height"
+            android:layout_below="@id/footer_home_iv"
+            android:gravity="center"
+            android:text="主页"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/footer_practice_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/footer_practice_iv"
+            android:layout_width="@dimen/footer_image_size"
+            android:layout_height="@dimen/footer_image_size"
+            android:layout_centerHorizontal="true"
+            android:clickable="true"
+            android:onClick="footerPracticeClick"
+            android:background="@drawable/footer_practice"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/footer_tv_height"
+            android:layout_below="@id/footer_practice_iv"
+            android:gravity="center"
+            android:text="练习"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/footer_test_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/footer_test_iv"
+            android:layout_width="@dimen/footer_image_size"
+            android:layout_height="@dimen/footer_image_size"
+            android:layout_centerHorizontal="true"
+            android:clickable="true"
+            android:onClick="footerTestClick"
+            android:background="@drawable/footer_test"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/footer_tv_height"
+            android:layout_below="@id/footer_test_iv"
+            android:gravity="center"
+            android:text="测试"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/footer_setting_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/footer_setting_iv"
+            android:layout_width="@dimen/footer_image_size"
+            android:layout_height="@dimen/footer_image_size"
+            android:layout_centerHorizontal="true"
+            android:clickable="true"
+            android:onClick="footerSettingClick"
+            android:background="@drawable/footer_setting"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/footer_tv_height"
+            android:layout_below="@id/footer_setting_iv"
+            android:gravity="center"
+            android:text="设置"/>
+    </RelativeLayout>
+
+</LinearLayout>

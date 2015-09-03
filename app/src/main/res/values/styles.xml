@@ -14,7 +14,6 @@
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="android:Theme.Holo.Light">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="android:actionBarStyle">@style/my_actionbar_style</item>
     </style>
 

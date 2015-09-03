@@ -16,6 +16,9 @@
 -->
 
 <resources>
+    <color name="app_theme_color">#647b97</color>
+    <color name="transparent">#00000000</color>
+
     <color name="candidate_normal">#bbb</color>
     <color name="candidates_background">#ddd</color>
 </resources>
