@@ -8,6 +8,7 @@ import android.content.Intent;
 import com.coderpage.wubinput.R;
 import com.coderpage.wubinput.model.Wubi;
 import com.coderpage.wubinput.view.activity.PracticeInputActivity;
+import com.coderpage.wubinput.view.activity.TestInputActivity;
 
 /**
  * @author abner-l
@@ -28,7 +29,7 @@ public class SelectDialog extends AlertDialog.Builder {
     private void initSettings() {
 
         int itemsSrcID;
-        if (mode == Wubi.TypingMode.PRACTICE_SINGLE_WORD) {
+        if (mode == Wubi.TypingMode.PRACTICE_SINGLE_WORD || mode == Wubi.TypingMode.TEST_SINGLE_WORD) {
             itemsSrcID = R.array.single_input_selects;
         } else {
             itemsSrcID = R.array.article_input_selects;
@@ -53,7 +54,7 @@ public class SelectDialog extends AlertDialog.Builder {
                             break;
 
                     }
-                } else {
+                } else if (mode == Wubi.TypingMode.PRACTICE_ARTICLE){
                     switch (which) {
                         case 0:
                             startActivityPracticeArticle(1);
@@ -117,6 +118,86 @@ public class SelectDialog extends AlertDialog.Builder {
                             break;
 
                     }
+                } else if (mode == Wubi.TypingMode.TEST_SINGLE_WORD){
+                    switch (which) {
+                        case 0:
+                            startActivityTestSingle(Wubi.SingleLevelType.LEVEL_1);
+                            break;
+                        case 1:
+                            startActivityTestSingle(Wubi.SingleLevelType.LEVEL_2);
+                            break;
+                        case 2:
+                            startActivityTestSingle(Wubi.SingleLevelType.LEVEL_3);
+                            break;
+                        default:
+                            startActivityTestSingle(Wubi.SingleLevelType.RANDOW);
+                            break;
+
+                    }
+                } else {
+                    switch (which) {
+                        case 0:
+                            startActivityTestArticle(1);
+                            break;
+                        case 1:
+                            startActivityTestArticle(2);
+                            break;
+                        case 2:
+                            startActivityTestArticle(3);
+                            break;
+                        case 3:
+                            startActivityTestArticle(4);
+                            break;
+                        case 4:
+                            startActivityTestArticle(5);
+                            break;
+                        case 5:
+                            startActivityTestArticle(6);
+                            break;
+                        case 6:
+                            startActivityTestArticle(7);
+                            break;
+                        case 7:
+                            startActivityTestArticle(8);
+                            break;
+                        case 8:
+                            startActivityTestArticle(9);
+                            break;
+                        case 9:
+                            startActivityTestArticle(10);
+                            break;
+                        case 10:
+                            startActivityTestArticle(11);
+                            break;
+                        case 11:
+                            startActivityTestArticle(12);
+                            break;
+                        case 12:
+                            startActivityTestArticle(13);
+                            break;
+                        case 13:
+                            startActivityTestArticle(14);
+                            break;
+                        case 14:
+                            startActivityTestArticle(15);
+                            break;
+                        case 15:
+                            startActivityTestArticle(16);
+                            break;
+                        case 16:
+                            startActivityTestArticle(17);
+                            break;
+                        case 17:
+                            startActivityTestArticle(18);
+                            break;
+                        case 18:
+                            startActivityTestArticle(19);
+                            break;
+                        default:
+                            startActivityTestArticle(20);
+                            break;
+
+                    }
                 }
             }
         });
@@ -134,6 +215,20 @@ public class SelectDialog extends AlertDialog.Builder {
     private void startActivityPracticeArticle(int select) {
         Intent intent = new Intent(context, PracticeInputActivity.class);
         intent.putExtra(PracticeInputActivity.BUNDLE_KEY_MODE, Wubi.TypingMode.PRACTICE_ARTICLE);
+        intent.putExtra(PracticeInputActivity.BUNDLE_KEY_SELECT, select);
+        context.startActivity(intent);
+    }
+
+    private void startActivityTestSingle(int select) {
+        Intent intent = new Intent(context, TestInputActivity.class);
+        intent.putExtra(PracticeInputActivity.BUNDLE_KEY_MODE, Wubi.TypingMode.TEST_SINGLE_WORD);
+        intent.putExtra(PracticeInputActivity.BUNDLE_KEY_SELECT, select);
+        context.startActivity(intent);
+    }
+
+    private void startActivityTestArticle(int select) {
+        Intent intent = new Intent(context, TestInputActivity.class);
+        intent.putExtra(PracticeInputActivity.BUNDLE_KEY_MODE, Wubi.TypingMode.TEST_ARTICLE);
         intent.putExtra(PracticeInputActivity.BUNDLE_KEY_SELECT, select);
         context.startActivity(intent);
     }

@@ -4,11 +4,9 @@ import android.app.ActionBar;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.View;
 import android.widget.TextView;
 
 import com.coderpage.wubinput.R;
-import com.coderpage.wubinput.db.DictionaryDBHelper;
 import com.coderpage.wubinput.model.Content;
 import com.coderpage.wubinput.tools.MLog;
 
@@ -105,18 +103,18 @@ public class TestInputActivity extends BaseInputActivity {
         typingSpeed.setText("速度:0字/分");
     }
 
-    @Override
-    protected void initContent() {
-        dbHelper = DictionaryDBHelper.getInstance(TestInputActivity.this);
-        String data = dbHelper.queryArticle(1);
-
-        if (inputSourceTV == null) {
-            inputSourceTV = (TextView) View.inflate(TestInputActivity.this, R.layout.input_src_view, null);
-        }
-
-        this.content = new Content(data, inputSourceTV);
-        this.lines = content.getLines();
-    }
+//    @Override
+//    protected void initContent() {
+//        dbHelper = DictionaryDBHelper.getInstance(TestInputActivity.this);
+//        String data = dbHelper.queryArticle(1);
+//
+//        if (inputSourceTV == null) {
+//            inputSourceTV = (TextView) View.inflate(TestInputActivity.this, R.layout.input_src_view, null);
+//        }
+//
+//        this.content = new Content(data, inputSourceTV);
+//        this.lines = content.getLines();
+//    }
 
     @Override
     protected void onCurChanged(String data) {

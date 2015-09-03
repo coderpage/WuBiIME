@@ -11,11 +11,14 @@ import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.coderpage.wubinput.R;
 import com.coderpage.wubinput.db.DictionaryDBHelper;
+import com.coderpage.wubinput.model.Content;
+import com.coderpage.wubinput.model.Wubi;
 import com.coderpage.wubinput.view.widget.ColorText;
 import com.coderpage.wubinput.view.widget.InputEditText;
 import com.coderpage.wubinput.view.widget.InputView;
@@ -31,6 +34,15 @@ public abstract class BaseInputActivity extends Activity {
 
     private String tag = BaseInputActivity.class.getSimpleName();
     private boolean debug = true;
+
+
+    /* bundle 数据中模式的 key 名称，模式有：单字练习、词组练习、文章练习 */
+    public static final String BUNDLE_KEY_MODE = "mode";
+    /* bundle 数据中用户选择练习的篇数，比如：第几篇文章，选择单字练习的难易程度 */
+    public static final String BUNDLE_KEY_SELECT = "select";
+
+    private int mode;
+    private int select;
 
     protected TextView inputSourceTV; // 输入的对照内容
     protected InputEditText inputET; // 输入框
@@ -65,6 +77,11 @@ public abstract class BaseInputActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bundle bundle = getIntent().getExtras();
+        mode = bundle.getInt(BUNDLE_KEY_MODE);
+        select = bundle.getInt(BUNDLE_KEY_SELECT);
+
         dbHelper = DictionaryDBHelper.getInstance(this);
 
         initContent();
@@ -99,7 +116,87 @@ public abstract class BaseInputActivity extends Activity {
 
     }
 
-    protected abstract void initContent();
+    protected void initContent() {
+        dbHelper = DictionaryDBHelper.getInstance(BaseInputActivity.this);
+        String data = null;
+        switch (mode) {
+            case Wubi.TypingMode.PRACTICE_SINGLE_WORD:
+                data = getSingleWords();
+                break;
+            case Wubi.TypingMode.PRACTICE_PHRASH:
+                data = getPhrase();
+                break;
+            case Wubi.TypingMode.PRACTICE_ARTICLE:
+                data = dbHelper.queryArticle(select);
+                break;
+            case Wubi.TypingMode.TEST_SINGLE_WORD:
+                data = getSingleWords();
+                break;
+            case Wubi.TypingMode.TEST_PHRASH:
+                data = getPhrase();
+                break;
+            case Wubi.TypingMode.TEST_ARTICLE:
+                data = dbHelper.queryArticle(select);
+                break;
+            default:
+                throw new IllegalStateException("不识别此模式：" + mode);
+        }
+
+
+        if (inputSourceTV == null) {
+            inputSourceTV = (TextView) View.inflate(BaseInputActivity.this, R.layout.input_src_view, null);
+        }
+
+        Content content = new Content(data, inputSourceTV);
+        this.lines = content.getLines();
+    }
+
+    private String getSingleWords() {
+        List<String> words;
+        switch (select) {
+            case Wubi.SingleLevelType.LEVEL_1:
+                words = dbHelper.querySingleLevel1();
+                return generateSingleData(words);
+
+            case Wubi.SingleLevelType.LEVEL_2:
+                words = dbHelper.querySingleLevel2(100);
+                return generateSingleData(words);
+
+            case Wubi.SingleLevelType.LEVEL_3:
+                words = dbHelper.querySingleLevel3(100);
+                return generateSingleData(words);
+
+            case Wubi.SingleLevelType.RANDOW:
+                words = dbHelper.querySingles(100);
+                return generateSingleData(words);
+
+            default:
+                throw new IllegalStateException("不识别此类别：" + select);
+        }
+    }
+
+    private String generateSingleData(List<String> words) {
+        StringBuilder builder = new StringBuilder();
+        for (String word : words) {
+            builder.append(word);
+        }
+
+        return builder.toString();
+    }
+
+    private String getPhrase() {
+        List<String> phrases = dbHelper.queryPhrase(100);
+        return generatePhraseData(phrases);
+    }
+
+    private String generatePhraseData(List<String> phrases) {
+        StringBuilder builder = new StringBuilder();
+        for (String phrase : phrases) {
+            builder.append(phrase);
+        }
+
+        return builder.toString();
+    }
 
 
     /**

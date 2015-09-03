@@ -102,16 +102,21 @@ public class MainActivity extends FragmentActivity implements ViewPager.OnPageCh
     }
 
     public void testSingle(View view) {
-        Intent intent = new Intent(MainActivity.this, TestInputActivity.class);
-        startActivity(intent);
+
+        SelectDialog dialog = new SelectDialog(MainActivity.this, Wubi.TypingMode.TEST_SINGLE_WORD);
+        dialog.showMe();
     }
 
     public void testPhrase(View view) {
-
+        Intent intent = new Intent(MainActivity.this, TestInputActivity.class);
+        intent.putExtra(PracticeInputActivity.BUNDLE_KEY_MODE, Wubi.TypingMode.TEST_PHRASH);
+        intent.putExtra(PracticeInputActivity.BUNDLE_KEY_SELECT, 0);
+        startActivity(intent);
     }
 
     public void testArticle(View view) {
-
+        SelectDialog dialog = new SelectDialog(MainActivity.this, Wubi.TypingMode.TEST_ARTICLE);
+        dialog.showMe();
     }
 
     //=====================================On footer item click=====================================
