@@ -2,8 +2,16 @@
 <com.coderpage.wubinput.SoftKeyboardView
     android:id="@+id/keyboard"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/keyboard_view_background"
+    android:keyTextColor="@color/black"
+    android:shadowRadius="0.0"
+    android:paddingTop="@dimen/key_verticalGap"
+    android:paddingBottom="@dimen/key_verticalGap"
     android:layout_alignParentBottom="true"
     android:keyBackground="@drawable/key_background"
     />
+
+
+

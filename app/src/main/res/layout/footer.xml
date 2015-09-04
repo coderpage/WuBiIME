@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="@dimen/footer_height"
-              android:background="@drawable/footer"
+              android:background="@drawable/footer_bg"
               android:layout_alignParentBottom="true"
               android:orientation="horizontal">
 

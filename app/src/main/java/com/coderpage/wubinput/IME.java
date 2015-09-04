@@ -101,7 +101,7 @@ public class IME extends InputMethodService implements
             Log.d(tag,"onCreateInputView ..");
         }
 
-        inputView = (SoftKeyboardView) getLayoutInflater().inflate(R.layout.input, null);
+        inputView = (SoftKeyboardView) getLayoutInflater().inflate(R.layout.keyboard, null);
         inputView.setOnKeyboardActionListener(this);
         inputView.setPreviewEnabled(false);
         return inputView;

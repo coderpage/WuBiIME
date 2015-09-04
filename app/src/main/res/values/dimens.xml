@@ -17,6 +17,8 @@
 <resources>
 
     <dimen name="key_height">50dp</dimen>
+    <dimen name="key_verticalGap">8dp</dimen>
+    <dimen name="key_horizontalGap">4dp</dimen>
 
     <dimen name="candidate_text_size">36sp</dimen>
     <dimen name="candidate_num_size">12sp</dimen>
