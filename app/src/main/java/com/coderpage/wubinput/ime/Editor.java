@@ -12,15 +12,21 @@
  * limitations under the License.
  */
 
-package com.coderpage.wubinput;
+package com.coderpage.wubinput.ime;
 
 import android.text.InputType;
 import android.view.inputmethod.InputConnection;
+
+import com.coderpage.wubinput.tools.MLog;
 
 /**
  * Updates the editing field and handles composing-text.
  */
 public class Editor {
+
+    private final boolean debug = true;
+    private final String tag = Editor.class.getSimpleName();
+
     protected StringBuilder composingText = new StringBuilder();
     private boolean canCompose;
     private boolean enterAsLineBreak;
@@ -77,7 +83,7 @@ public class Editor {
         }
     }
 
-    private boolean deleteLastComposingChar(InputConnection ic) {
+    protected boolean deleteLastComposingChar(InputConnection ic) {
         if (hasComposingText()) {
             // Delete-key are accepted only when there's text in composing.
             composingText.deleteCharAt(composingText.length() - 1);
@@ -91,6 +97,11 @@ public class Editor {
      * Commits the given text to the editing field.
      */
     public boolean commitText(InputConnection ic, CharSequence text) {
+
+        if (debug){
+            MLog.debug(tag,"commitText: " + text);
+        }
+
         if (ic != null) {
             if (text.length() > 1) {
                 // Batch edit a sequence of characters.
@@ -120,6 +131,7 @@ public class Editor {
         if (keyCode == SoftKeyboard.KEYCODE_BACKSPACE) {
             return deleteLastComposingChar(ic);
         }
+
 
         if (canCompose && doCompose(keyCode, ic)) {
             updateComposingText(ic);

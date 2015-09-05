@@ -1,10 +1,12 @@
-package com.coderpage.wubinput;
+package com.coderpage.wubinput.ime;
 
 import android.inputmethodservice.InputMethodService;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.coderpage.wubinput.R;
 
 import java.util.ArrayList;
 

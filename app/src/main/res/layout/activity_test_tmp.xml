@@ -15,7 +15,7 @@
         android:inputType="text|textMultiLine|textNoSuggestions"
         android:textSize="32sp"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="top"/>
 
 

@@ -1,24 +1,12 @@
-/*
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-package com.coderpage.wubinput;
+package com.coderpage.wubinput.ime;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.graphics.drawable.Drawable;
 import android.inputmethodservice.Keyboard;
+
+import com.coderpage.wubinput.R;
 
 /**
  * A soft keyboard definition.
@@ -27,15 +15,25 @@ public class SoftKeyboard extends Keyboard {
 
     public static final int KEYCODE_BACKSPACE = KEYCODE_DELETE;
     public static final int KEYCODE_ENTER = 10;
+    public static final int KEYCODE_SYMBOL = 11;
+    public static final int KEYCODE_NUMBER = 12;
+    public static final int KEYCODE_LANGUAGE = 13;
+    public static final int KEYCODE_SPACE = 32;
     private static final String ESCAPE_LABEL = "Esc";
 
     private final int id;
     private Key symbolKey;
     private Key enterKey;
+    private Key shiftKey;
+
     private Drawable enterIcon;
     private Drawable enterPreviewIcon;
+    private Drawable shiftOn;
+    private Drawable shiftOff;
+
     private int enterKeyIndex;
     private boolean escaped;
+    private boolean shift;
 
     public SoftKeyboard(Context context, int xmlLayoutResId) {
         super(context, xmlLayoutResId);
@@ -112,18 +110,54 @@ public class SoftKeyboard extends Keyboard {
         return false;
     }
 
+    /**
+     * 是否大写模式
+     */
+    public boolean isShift() {
+        return shift;
+    }
+
+    /**
+     * 设置是否大写模式
+     */
+    public void setShift(boolean isShift) {
+        this.shift = isShift;
+        if (isShift) {
+            if (shiftOn == null) {
+                shiftOn = Resources.getSystem().getDrawable(R.drawable.keyboard_shift_on_icon);
+            }
+            shiftKey.icon = shiftOn;
+            setShift(true);
+        } else {
+            shiftKey.icon = shiftOff;
+            setShift(false);
+        }
+    }
+
     @Override
     protected Key createKeyFromXml(Resources res, Row parent, int x, int y, XmlResourceParser parser) {
         Key key = new Keyboard.Key(res, parent, x, y, parser);
-        if (key.codes[0] == KEYCODE_MODE_CHANGE) {
-            symbolKey = key;
-        } else if (key.codes[0] == KEYCODE_ENTER) {
-            enterKey = key;
-            enterIcon = key.icon;
-            enterPreviewIcon = key.iconPreview;
-            enterKeyIndex = getKeys().size();
-            escaped = false;
+
+        switch (key.codes[0]) {
+            case KEYCODE_ENTER:
+                enterKey = key;
+                enterIcon = key.icon;
+                enterPreviewIcon = key.iconPreview;
+                enterKeyIndex = getKeys().size();
+                escaped = false;
+                break;
+            case KEYCODE_SYMBOL:
+                symbolKey = key;
+                break;
+            case KEYCODE_SHIFT:
+                shiftKey = key;
+                shiftOff = shiftKey.icon;
+                shift = false;
+                break;
+            default:
+                break;
         }
+
         return key;
     }
 }

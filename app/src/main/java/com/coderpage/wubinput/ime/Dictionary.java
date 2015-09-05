@@ -12,11 +12,13 @@
  * limitations under the License.
  */
 
-package com.coderpage.wubinput;
+package com.coderpage.wubinput.ime;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.coderpage.wubinput.R;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

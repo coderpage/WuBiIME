@@ -1,8 +1,10 @@
-package com.coderpage.wubinput;
+package com.coderpage.wubinput.ime;
 
 import android.content.Context;
 import android.inputmethodservice.Keyboard;
 import android.text.InputType;
+
+import com.coderpage.wubinput.R;
 
 public class KeyboardSwitch {
 

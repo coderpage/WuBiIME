@@ -1,4 +1,4 @@
-package com.coderpage.wubinput;
+package com.coderpage.wubinput.ime;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,10 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
+
+import com.coderpage.wubinput.ImePreferenceActivity;
+import com.coderpage.wubinput.R;
+import com.coderpage.wubinput.tools.MLog;
 
 import java.util.ArrayList;
 
@@ -28,12 +32,12 @@ public class IME extends InputMethodService implements
     private Editor editor;
     private int orientation;
 
-    private KeyboardSwitch createKeyboardSwitch(Context context){
+    private KeyboardSwitch createKeyboardSwitch(Context context) {
         return new KeyboardSwitch(context);
     }
 
-    private Editor createEditor(){
-            return new Editor();
+    private Editor createEditor() {
+        return new Editor();
     }
 
     @Override
@@ -47,8 +51,8 @@ public class IME extends InputMethodService implements
         // Use the following line to debug IME service.
         //android.os.Debug.waitForDebugger();
 
-        if (debug){
-            Log.d(tag,"onCreate ..");
+        if (debug) {
+            Log.d(tag, "onCreate ..");
         }
     }
 
@@ -61,8 +65,8 @@ public class IME extends InputMethodService implements
         }
         super.onConfigurationChanged(newConfig);
 
-        if (debug){
-            Log.d(tag,"onConfigurationChanged ..");
+        if (debug) {
+            Log.d(tag, "onConfigurationChanged ..");
         }
     }
 
@@ -79,8 +83,8 @@ public class IME extends InputMethodService implements
         // Update the caps-lock status for the current cursor position.
         updateCursorCapsToInputView();
 
-        if (debug){
-            Log.d(tag,"onUpdateSelection ..");
+        if (debug) {
+            Log.d(tag, "onUpdateSelection ..");
         }
     }
 
@@ -89,16 +93,16 @@ public class IME extends InputMethodService implements
         super.onComputeInsets(outInsets);
         outInsets.contentTopInsets = outInsets.visibleTopInsets;
 
-        if (debug){
-            Log.d(tag,"onComputeInsets ..");
+        if (debug) {
+            Log.d(tag, "onComputeInsets ..");
         }
     }
 
     @Override
     public View onCreateInputView() {
 
-        if (debug){
-            Log.d(tag,"onCreateInputView ..");
+        if (debug) {
+            Log.d(tag, "onCreateInputView ..");
         }
 
         inputView = (SoftKeyboardView) getLayoutInflater().inflate(R.layout.keyboard, null);
@@ -109,8 +113,8 @@ public class IME extends InputMethodService implements
 
     @Override
     public View onCreateCandidatesView() {
-        if (debug){
-            Log.d(tag,"onCreateCandidatesView ..");
+        if (debug) {
+            Log.d(tag, "onCreateCandidatesView ..");
         }
 
         mCandidatesManager = CandidatesManager.getInstance(this);
@@ -133,8 +137,8 @@ public class IME extends InputMethodService implements
         keyboardSwitch.onStartInput(attribute.inputType);
         bindKeyboardToInputView();
 
-        if (debug){
-            Log.d(tag,"onStartInputView ..");
+        if (debug) {
+            Log.d(tag, "onStartInputView ..");
         }
     }
 
@@ -145,8 +149,8 @@ public class IME extends InputMethodService implements
         editor.clearComposingText(getCurrentInputConnection());
         super.onFinishInput();
 
-        if (debug){
-            Log.d(tag,"onFinishInput ..");
+        if (debug) {
+            Log.d(tag, "onFinishInput ..");
         }
     }
 
@@ -157,8 +161,8 @@ public class IME extends InputMethodService implements
         // Dismiss any pop-ups when the input-view is being finished and hidden.
         inputView.closing();
 
-        if (debug){
-            Log.d(tag,"onFinishInputView ..");
+        if (debug) {
+            Log.d(tag, "onFinishInputView ..");
         }
     }
 
@@ -167,8 +171,8 @@ public class IME extends InputMethodService implements
         editor.clearComposingText(getCurrentInputConnection());
         super.onFinishCandidatesView(finishingInput);
 
-        if (debug){
-            Log.d(tag,"onFinishCandidatesView ..");
+        if (debug) {
+            Log.d(tag, "onFinishCandidatesView ..");
         }
     }
 
@@ -177,8 +181,8 @@ public class IME extends InputMethodService implements
         editor.clearComposingText(getCurrentInputConnection());
         super.onUnbindInput();
 
-        if (debug){
-            Log.d(tag,"onUnbindInput ..");
+        if (debug) {
+            Log.d(tag, "onUnbindInput ..");
         }
     }
 
@@ -211,8 +215,8 @@ public class IME extends InputMethodService implements
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (debug){
-            Log.d(tag,"onKeyDown .." + "  event.getUnicodeChar:" + event.getUnicodeChar() +"  keyCode:" + keyCode);
+        if (debug) {
+            Log.d(tag, "onKeyDown .." + "  event.getUnicodeChar:" + event.getUnicodeChar() + "  keyCode:" + keyCode);
         }
 
         if ((keyCode == KeyEvent.KEYCODE_BACK) && (event.getRepeatCount() == 0)) {
@@ -220,10 +224,9 @@ public class IME extends InputMethodService implements
             if ((inputView != null) && inputView.handleBack()) {
                 return true;
             }
-        }
-        else{
+        } else {
             //TODO
-            switch(keyCode){
+            switch (keyCode) {
                 case KeyEvent.KEYCODE_DEL: //backspace
                     onKey(SoftKeyboard.KEYCODE_BACKSPACE, null);
                     return true;
@@ -238,11 +241,11 @@ public class IME extends InputMethodService implements
                     onKey(event.getUnicodeChar(), null);
                     return true;
             }
-            if(keyCode >= KeyEvent.KEYCODE_0 && keyCode <= KeyEvent.KEYCODE_9){
+            if (keyCode >= KeyEvent.KEYCODE_0 && keyCode <= KeyEvent.KEYCODE_9) {
                 onKey(event.getUnicodeChar(), null);
                 return true;
             }
-            if(keyCode >= KeyEvent.KEYCODE_A && keyCode <= KeyEvent.KEYCODE_PERIOD){
+            if (keyCode >= KeyEvent.KEYCODE_A && keyCode <= KeyEvent.KEYCODE_PERIOD) {
                 onKey(event.getUnicodeChar(), null);
                 return true;
             }
@@ -254,17 +257,35 @@ public class IME extends InputMethodService implements
     }
 
     public void onKey(int primaryCode, int[] keyCodes) {
+        if (debug) {
+            MLog.debug(tag, " onKey:" + primaryCode + "  char:" + (char) primaryCode);
+        }
+
         if (keyboardSwitch.onKey(primaryCode)) {
             escape();
             bindKeyboardToInputView();
             return;
         }
-        if (handleCapsLock(primaryCode)
-                || handleEnter(primaryCode) || handleSpace(primaryCode)
-                || handleDelete(primaryCode) || handleComposing(primaryCode)) {
-            return;
+
+        switch (primaryCode) {
+            case SoftKeyboard.KEYCODE_SHIFT:
+                handleCapsLock();
+                break;
+            case SoftKeyboard.KEYCODE_ENTER:
+                handleEnter();
+                break;
+            case SoftKeyboard.KEYCODE_SPACE:
+                handleSpace();
+                break;
+            case SoftKeyboard.KEYCODE_BACKSPACE:
+                handleDelete();
+                break;
+            default:
+                handleKey(primaryCode);
+                break;
         }
-        handleKey(primaryCode);
+
+
     }
 
     public void onText(CharSequence text) {
@@ -311,47 +332,45 @@ public class IME extends InputMethodService implements
             }
         }
     }
-    private boolean handleCapsLock(int keyCode) {
-        return (keyCode == SoftKeyboard.KEYCODE_SHIFT) && inputView.toggleCapsLock();
+
+    private boolean handleCapsLock() {
+        return inputView.toggleCapsLock();
     }
 
-    private boolean handleEnter(int keyCode) {
-        if (keyCode == '\n') {
-            if (editor.hasComposingText()) {
-                escape();
-            } else if (editor.treatEnterAsLinkBreak()) {
-                commitText("\n");
-            } else {
-                sendKeyChar('\n');
-            }
-            return true;
+    private boolean handleEnter() {
+        if (editor.hasComposingText()) {
+            escape();
+        } else if (editor.treatEnterAsLinkBreak()) {
+            commitText("\n");
+        } else {
+            sendKeyChar('\n');
         }
-        return false;
+        return true;
     }
 
-    private boolean handleSpace(int keyCode) {
-        if (keyCode == ' ') {
-            if (mCandidatesManager.hasCandidate() > 0) {
-                mCandidatesManager.pickCandidate(1);
-            } else {
-                commitText(" ");
-            }
-            return true;
+    private boolean handleSpace() {
+        if (mCandidatesManager.hasCandidate() > 0) {
+            mCandidatesManager.pickCandidate(1);
+        } else {
+            commitText(" ");
         }
-        return false;
+        return true;
     }
 
-    private boolean handleDelete(int keyCode) {
-        // Handle delete-key only when no composing text.
-        if ((keyCode == SoftKeyboard.KEYCODE_BACKSPACE) && !editor.hasComposingText()) {
+    private void handleDelete() {
+
+        if (editor.hasComposingText()) {
+            editor.deleteLastComposingChar(getCurrentInputConnection());
+            setCandidates(Dictionary.getInstance(this).getCandidates(editor.composingText().toString()));
+
+        } else {
             if (inputView.hasEscape()) {
                 escape();
             } else {
                 sendDownUpKeyEvents(KeyEvent.KEYCODE_DEL);
             }
-            return true;
+
         }
-        return false;
     }
 
     private boolean handleComposing(int keyCode) {
@@ -371,8 +390,12 @@ public class IME extends InputMethodService implements
     private void handleKey(int keyCode) {
         if (isInputViewShown() && inputView.isShifted()) {
             keyCode = Character.toUpperCase(keyCode);
+            commitText(editor.composingText().toString() + String.valueOf((char) keyCode));
+            escape();
+        } else if (editor.compose(getCurrentInputConnection(), keyCode)) {
+            setCandidates(Dictionary.getInstance(this).getCandidates(editor.composingText().toString()));
         }
-        commitText(String.valueOf((char) keyCode));
+
     }
 
     /**
@@ -382,8 +405,9 @@ public class IME extends InputMethodService implements
         editor.clearComposingText(getCurrentInputConnection());
         clearCandidates();
     }
-    public void onClick(View view){
-        if(view.getId() == R.id.setting_button){
+
+    public void onClick(View view) {
+        if (view.getId() == R.id.setting_button) {
             Intent pref = new Intent(this, ImePreferenceActivity.class);
             pref.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(pref);
@@ -394,18 +418,19 @@ public class IME extends InputMethodService implements
 
 
     @Override
-    public boolean onEvaluateInputViewShown(){
-        if (debug){
-            Log.d(tag,"onEvaluateInputViewShown ..");
+    public boolean onEvaluateInputViewShown() {
+        if (debug) {
+            Log.d(tag, "onEvaluateInputViewShown ..");
         }
 
         return true;
     }
-    @Override
-    public boolean onEvaluateFullscreenMode(){
 
-        if (debug){
-            Log.d(tag,"onEvaluateFullscreenMode ..");
+    @Override
+    public boolean onEvaluateFullscreenMode() {
+
+        if (debug) {
+            Log.d(tag, "onEvaluateFullscreenMode ..");
         }
 
         return false;
