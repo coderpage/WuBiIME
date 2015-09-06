@@ -11,7 +11,7 @@ import com.coderpage.wubinput.R;
 /**
  * A soft keyboard definition.
  */
-public class SoftKeyboard extends Keyboard {
+public class WuBiKeyboard extends Keyboard {
 
     public static final int KEYCODE_BACKSPACE = KEYCODE_DELETE;
     public static final int KEYCODE_ENTER = 10;
@@ -35,7 +35,7 @@ public class SoftKeyboard extends Keyboard {
     private boolean escaped;
     private boolean shift;
 
-    public SoftKeyboard(Context context, int xmlLayoutResId) {
+    public WuBiKeyboard(Context context, int xmlLayoutResId) {
         super(context, xmlLayoutResId);
         id = xmlLayoutResId;
     }

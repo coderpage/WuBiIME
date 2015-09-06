@@ -128,10 +128,10 @@ public class Editor {
      * @return {@code true} if the key is handled and consumed for composing.
      */
     public boolean compose(InputConnection ic, int keyCode) {
-        if (keyCode == SoftKeyboard.KEYCODE_BACKSPACE) {
-            return deleteLastComposingChar(ic);
-        }
-
+//        if (keyCode == WuBiKeyboard.KEYCODE_BACKSPACE) {
+//            return deleteLastComposingChar(ic);
+//        }
+//
 
         if (canCompose && doCompose(keyCode, ic)) {
             updateComposingText(ic);

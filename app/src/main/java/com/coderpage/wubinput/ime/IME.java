@@ -51,9 +51,6 @@ public class IME extends InputMethodService implements
         // Use the following line to debug IME service.
         //android.os.Debug.waitForDebugger();
 
-        if (debug) {
-            Log.d(tag, "onCreate ..");
-        }
     }
 
     @Override
@@ -65,9 +62,6 @@ public class IME extends InputMethodService implements
         }
         super.onConfigurationChanged(newConfig);
 
-        if (debug) {
-            Log.d(tag, "onConfigurationChanged ..");
-        }
     }
 
     @Override
@@ -83,9 +77,6 @@ public class IME extends InputMethodService implements
         // Update the caps-lock status for the current cursor position.
         updateCursorCapsToInputView();
 
-        if (debug) {
-            Log.d(tag, "onUpdateSelection ..");
-        }
     }
 
     @Override
@@ -93,17 +84,10 @@ public class IME extends InputMethodService implements
         super.onComputeInsets(outInsets);
         outInsets.contentTopInsets = outInsets.visibleTopInsets;
 
-        if (debug) {
-            Log.d(tag, "onComputeInsets ..");
-        }
     }
 
     @Override
     public View onCreateInputView() {
-
-        if (debug) {
-            Log.d(tag, "onCreateInputView ..");
-        }
 
         inputView = (SoftKeyboardView) getLayoutInflater().inflate(R.layout.keyboard, null);
         inputView.setOnKeyboardActionListener(this);
@@ -113,9 +97,6 @@ public class IME extends InputMethodService implements
 
     @Override
     public View onCreateCandidatesView() {
-        if (debug) {
-            Log.d(tag, "onCreateCandidatesView ..");
-        }
 
         mCandidatesManager = CandidatesManager.getInstance(this);
         mCandidatesView = mCandidatesManager.getCandidatesView();
@@ -137,9 +118,6 @@ public class IME extends InputMethodService implements
         keyboardSwitch.onStartInput(attribute.inputType);
         bindKeyboardToInputView();
 
-        if (debug) {
-            Log.d(tag, "onStartInputView ..");
-        }
     }
 
     @Override
@@ -149,9 +127,6 @@ public class IME extends InputMethodService implements
         editor.clearComposingText(getCurrentInputConnection());
         super.onFinishInput();
 
-        if (debug) {
-            Log.d(tag, "onFinishInput ..");
-        }
     }
 
     @Override
@@ -161,9 +136,6 @@ public class IME extends InputMethodService implements
         // Dismiss any pop-ups when the input-view is being finished and hidden.
         inputView.closing();
 
-        if (debug) {
-            Log.d(tag, "onFinishInputView ..");
-        }
     }
 
     @Override
@@ -171,19 +143,12 @@ public class IME extends InputMethodService implements
         editor.clearComposingText(getCurrentInputConnection());
         super.onFinishCandidatesView(finishingInput);
 
-        if (debug) {
-            Log.d(tag, "onFinishCandidatesView ..");
-        }
     }
 
     @Override
     public void onUnbindInput() {
         editor.clearComposingText(getCurrentInputConnection());
         super.onUnbindInput();
-
-        if (debug) {
-            Log.d(tag, "onUnbindInput ..");
-        }
     }
 
     private void bindKeyboardToInputView() {
@@ -192,6 +157,8 @@ public class IME extends InputMethodService implements
             inputView.setKeyboard(keyboardSwitch.getKeyboard());
             updateCursorCapsToInputView();
         }
+        MLog.debug(tag, "bindKeyboardToInputView:" + keyboardSwitch.getKeyboard().getClass().getSimpleName());
+
     }
 
     private void updateCursorCapsToInputView() {
@@ -228,7 +195,7 @@ public class IME extends InputMethodService implements
             //TODO
             switch (keyCode) {
                 case KeyEvent.KEYCODE_DEL: //backspace
-                    onKey(SoftKeyboard.KEYCODE_BACKSPACE, null);
+                    onKey(WuBiKeyboard.KEYCODE_BACKSPACE, null);
                     return true;
                 case KeyEvent.KEYCODE_ESCAPE: //esc
                 case KeyEvent.KEYCODE_SHIFT_LEFT: //left shift
@@ -256,6 +223,9 @@ public class IME extends InputMethodService implements
         return super.onKeyDown(keyCode, event);
     }
 
+
+    //=============================== KeyboardView.OnKeyboardActionListener ========================
+
     public void onKey(int primaryCode, int[] keyCodes) {
         if (debug) {
             MLog.debug(tag, " onKey:" + primaryCode + "  char:" + (char) primaryCode);
@@ -268,17 +238,20 @@ public class IME extends InputMethodService implements
         }
 
         switch (primaryCode) {
-            case SoftKeyboard.KEYCODE_SHIFT:
+            case WuBiKeyboard.KEYCODE_SHIFT:
                 handleCapsLock();
                 break;
-            case SoftKeyboard.KEYCODE_ENTER:
+            case WuBiKeyboard.KEYCODE_ENTER:
                 handleEnter();
                 break;
-            case SoftKeyboard.KEYCODE_SPACE:
+            case WuBiKeyboard.KEYCODE_SPACE:
                 handleSpace();
                 break;
-            case SoftKeyboard.KEYCODE_BACKSPACE:
+            case WuBiKeyboard.KEYCODE_BACKSPACE:
                 handleDelete();
+                break;
+            case WuBiKeyboard.KEYCODE_LANGUAGE:
+                keyboardSwitch.onKey(WuBiKeyboard.KEYCODE_LANGUAGE);
                 break;
             default:
                 handleKey(primaryCode);
@@ -315,6 +288,8 @@ public class IME extends InputMethodService implements
     public void swipeDown() {
         requestHideSelf(0);
     }
+
+    //==============================================================================================
 
     public void onPickCandidate(String candidate) {
         commitText(candidate);
@@ -383,19 +358,23 @@ public class IME extends InputMethodService implements
         return false;
     }
 
-    /**
-     * Handles input of SoftKeyboard key code that has not been consumed by
-     * other handling-methods.
-     */
+
     private void handleKey(int keyCode) {
         if (isInputViewShown() && inputView.isShifted()) {
             keyCode = Character.toUpperCase(keyCode);
             commitText(editor.composingText().toString() + String.valueOf((char) keyCode));
             escape();
-        } else if (editor.compose(getCurrentInputConnection(), keyCode)) {
-            setCandidates(Dictionary.getInstance(this).getCandidates(editor.composingText().toString()));
+            return;
         }
 
+        if (keyboardSwitch.getCurrentKeyboardType() == keyboardSwitch.KEYBOARD_WUBI) {
+            if (editor.compose(getCurrentInputConnection(), keyCode)) {
+                setCandidates(Dictionary.getInstance(this).getCandidates(editor.composingText().toString()));
+                return;
+            }
+        }
+
+        commitText(String.valueOf((char) keyCode));
     }
 
     /**

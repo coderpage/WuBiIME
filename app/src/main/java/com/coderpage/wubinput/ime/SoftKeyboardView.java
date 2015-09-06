@@ -18,7 +18,7 @@ public class SoftKeyboardView extends KeyboardView {
     private final boolean debug = true;
     private final String tag = SoftKeyboardView.class.getSimpleName();
 
-    private SoftKeyboard currentKeyboard;
+    private WuBiKeyboard currentKeyboard;
     private boolean capsLock;
 
     private static Method invalidateKeyMethod;
@@ -90,9 +90,9 @@ public class SoftKeyboardView extends KeyboardView {
 
     @Override
     public void setKeyboard(Keyboard keyboard) {
-        if (keyboard instanceof SoftKeyboard) {
+        if (keyboard instanceof WuBiKeyboard) {
             boolean escape = hasEscape();
-            currentKeyboard = (SoftKeyboard) keyboard;
+            currentKeyboard = (WuBiKeyboard) keyboard;
             currentKeyboard.updateStickyKeys();
             currentKeyboard.setEscape(escape);
         }

@@ -7,13 +7,23 @@ import android.text.InputType;
 import com.coderpage.wubinput.R;
 
 public class KeyboardSwitch {
+    private final String tag = KeyboardSwitch.class.getSimpleName();
+    private final boolean debug = true;
+
+    final static int KEYBOARD_WUBI = 0x1;
+    final static int KEYBOARD_ENGLISH = 0x2;
+    final static int KEYBOARD_NUMBLE = 0x3;
+    final static int KEYBOARD_SYMBOL = 0x4;
+
 
     private final Context context;
-    private SoftKeyboard currentKeyboard;
+    private Keyboard currentKeyboard;
+    private int currentKeyboardType;
 
-    private SoftKeyboard qwertyKeyboard;
-    private SoftKeyboard symbolKeyboard;
-    private SoftKeyboard numberKeyboard;
+    private WuBiKeyboard wuBiKeyboard;
+    private EnglishKeyboard englishKeyboard;
+    private WuBiKeyboard symbolKeyboard;
+    private WuBiKeyboard numberKeyboard;
 
     private int currentDisplayWidth;
 
@@ -26,7 +36,8 @@ public class KeyboardSwitch {
             return;
         }
         currentDisplayWidth = displayWidth;
-        qwertyKeyboard = new SoftKeyboard(context, R.xml.qwerty);
+        wuBiKeyboard = new WuBiKeyboard(context, R.xml.qwerty);
+        englishKeyboard = new EnglishKeyboard(context, R.xml.qwerty_english);
         if (currentKeyboard == null) {
             toChinese();
         }
@@ -61,22 +72,42 @@ public class KeyboardSwitch {
     }
 
     public boolean onKey(int keyCode) {
-
+        switch (keyCode) {
+            case WuBiKeyboard.KEYCODE_LANGUAGE:
+                if (currentKeyboard instanceof EnglishKeyboard) {
+                    toChinese();
+                } else {
+                    toEnglish();
+                }
+                return true;
+            default:
+                break;
+        }
         return false;
     }
 
-    private void toChinese(){
-        currentKeyboard = qwertyKeyboard;
-        //TODO
+    private void toChinese() {
+        currentKeyboard = wuBiKeyboard;
+        currentKeyboardType = KEYBOARD_WUBI;
     }
-    private void toSymbol(){
+
+    private void toSymbol() {
         currentKeyboard = symbolKeyboard;
+        currentKeyboardType = KEYBOARD_SYMBOL;
     }
-    private void toNumber(){
+
+    private void toNumber() {
         currentKeyboard = numberKeyboard;
+        currentKeyboardType = KEYBOARD_NUMBLE;
     }
-    private void toEnglish(){
-        //TODO
+
+    private void toEnglish() {
+        currentKeyboard = englishKeyboard;
+        currentKeyboardType = KEYBOARD_ENGLISH;
+    }
+
+    int getCurrentKeyboardType() {
+        return currentKeyboardType;
     }
 
 }
